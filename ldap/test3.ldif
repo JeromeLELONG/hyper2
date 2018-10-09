@@ -1,0 +1,31 @@
+
+
+dn: o=Personnel, dc=cnam,dc=fr
+changetype: add
+telephoneNumber: 00 00 00 00 00
+objectClass: top
+objectClass: Organization
+o: Personnel
+
+dn: ou=People, o=Personnel, dc=cnam,dc=fr
+changetype: add
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: uid=billy, ou=People, o=Personnel,dc=cnam,dc=fr
+changetype: add
+uid: billy
+cn: billy
+sn: 3
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: personnel
+loginShell: /bin/bash
+homeDirectory: /home/billy
+uidNumber: 14583102
+gidNumber: 14564100
+userPassword: motdepasse
+mail: billy@example.org
+gecos: Billy User

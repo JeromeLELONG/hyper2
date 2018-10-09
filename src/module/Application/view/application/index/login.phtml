@@ -1,0 +1,77 @@
+<nav class="navbar bandeau-navigation navbar-fixed-top" role="navigation" style="margin-bottom:0; height: 60px;">
+<div class="container">
+<div class="navbar-header"><img style="position:absolute;top:0px;left:-250px;" class="bounce-animation" src="img/cnam_header1.png"/>
+<img style="position: absolute; top: 0px; left:380px;" src="img/cnam_header2.png"/></div>
+<div class="navbar-header" style="margin-left: 200px;">
+<div style="background-color: #C1022D;  position: absolute; height:60px; width: 3000px; top: 0px; left:450px;"></div>
+<p class="navbar-brand" style="position:absolute;top:0px;left:450px;color: white;font-size: 38px;  text-shadow: 9px 11px 12px #000000;">
+                        Gestion du suivi des présences
+                    </p>
+                </div>
+            </div>
+</nav>
+<script language="Javascript">
+function changeButton() {
+    // Get the first found UL, anywhere in the body
+    document.getElementById("button").className = "btn btn-primary input-shadow focusBig";
+}
+
+function resetButton() {
+    // Get the first found UL, anywhere in the body
+    document.getElementById("button").className = "btn btn-primary input-shadow";
+}
+</script>
+<div class="container" style="margin: auto;">
+<div class="row" style="margin-bottom: 100px; margin-top:100px;">
+<div class="panel panel-primary panel-shadow" style="margin: auto;
+    width: 50%; display: table;
+    ">
+  <div class="panel-heading">Connexion à l'application Présence</div>
+  <div class="panel-body">
+<div id="login">
+    <?php
+//module/SanAuth/view/san-auth/auth/login.phtml
+    $form = $this->form;
+    $form->setAttribute('action', $this->url(
+                    'login/process', array(
+                'action' => 'authenticate',
+                    )
+    ));
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    //echo $this->formCollection($form);
+?><div class="row">
+ <div class="col-md-6">
+<?php 
+    echo $this->formRow($form->get('username'));
+?>
+</div>
+<div class="col-md-6">
+<?php
+    echo $this->formRow($form->get('password'));
+?>
+</div>
+</div><div class="row">
+<?php
+    echo $this->formRow($form->get('submit'));
+    echo "</div><div class='row'><div class='well'><div style='text-align:left;font-size:12px;margin-top:10px;' >
+    		* Utiliser les identifiants Virtualia pour se connecter à l'interface d'administration</div></div></div>";
+    ?><br/>
+    <?php
+    echo $this->form()->closeTag();
+
+    if ($this->messages) {
+        echo '<div class="alert alert-danger fade in">';
+        foreach ($this->messages as $message) {
+            echo '<li>' . $message . '</li>';
+        }
+        echo '</div>';
+    }
+    ?>    
+</div>
+</div>
+</div>
+</div><hr>
+<footer><p>2018 - Direction des Systèmes d'Information - Cnam Paris</p>
+</footer>
+</div>

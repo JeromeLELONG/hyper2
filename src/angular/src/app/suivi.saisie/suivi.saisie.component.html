@@ -1,0 +1,118 @@
+<div @fadeIn>
+	<div class="row" style="margin-right: 10px; margin-left: 10px;">
+			<div class="panel panel-default panel-shadow">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Suivi des saisies de présence</h3>
+			</div>
+			<div class="panel-body">
+		<div class="panel panel-default panel-shadow" style="margin-bottom: 15px;">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Sélection de la semaine et du jour</h3>
+			</div>
+			
+			<div class="panel-body" style="padding: 0; text-align: center;">
+			<div class="col-md-10">
+			<ul class="pagination" style="padding: 0 0 0 0; margin: 2px 0 2px 0;">
+<li *ngFor="let semaine of semaines" [ngClass]="{'active': semaine.value == 6?1:0}" (click)="selectSemaine(semaine.value)"><a href="JavaScript:void(0)" 
+[ngStyle]="{'font-family': 'Roboto,Trebuchet MS,Arial,Helvetica,sans-serif', 'font-size': '1em', 'font-weight': 'normal', 'color': semaine.value == 6?'#FFFFFF':'#555555'}">{{semaine.label}}</a></li>
+</ul>
+			<p-selectButton [options]="jours" [(ngModel)]="jourSelect" styleClass="selectpicker btn-default"
+			(onChange)="selectJour()"></p-selectButton>
+			</div><div style="padding-top:10px;"></div>
+			<div class="col-md-2"><p-calendar [(ngModel)]="dateSelect" [locale]="globals.frLabel" [style]="{'border-radius':'20px'}" styleClass="input-shadow"
+						(onSelect)="refreshData()" dateFormat="dd/mm/yy"></p-calendar>
+			</div>
+			</div>
+		</div>
+		<div class="panel panel-default panel-shadow" style="margin-bottom: 15px;">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Sélection du groupe de salles</h3>
+			</div>
+			<div class="panel-body" style="padding: 0; text-align: center;">
+					<p-selectButton [options]="listeGroupes" [(ngModel)]="selectedGroupe" styleClass="selectpicker btn-default"
+					(onChange)="selectGroupe()"></p-selectButton>
+			</div>
+		</div>
+		<div class="panel panel-default panel-shadow" style="margin-top: 38px;">
+			<div class="panel-body" style="padding: 0; text-align: center;">
+			<div style="font-size:16px;margin-top:8px; margin-bottom:4px;" *ngIf="!presences.length && !isLoading">Aucune donnée disponible pour le {{dateSelect.toLocaleDateString( 'fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } )}}</div>
+			<div style="font-size:16px;margin-top:8px; margin-bottom:4px;" *ngIf="isLoading">Chargement...</div>
+			<div style="font-size:12px;font-style: italic; margin-top:8px; margin-bottom:4px;" *ngIf="presences.length && !isLoading"><span class="glyphicon glyphicon-asterisk"></span> Remarque: les lignes avec le marqueur <img style="border: 1px solid #CCCCCC ;" src="img/canceled.png" height="32" width="32"/> correspondent à des cours annulés, 
+					<span class="glyphicon glyphicon-remove" style="color: #eb2a21;"></span> indique les fiches non saisies et <span class="glyphicon glyphicon-ok" style="color: #5baa1a;"></span> les fiches qui ont été saisies</div>
+					<table [ngClass]="styleTable" style="border: 1px solid #CCCCCC ;table-layout: fixed;margin-bottom: 15px;" align="center" *ngIf="presences.length && !isLoading">
+							                        <colgroup>
+                            <col style="width: 1%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 3%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 5%;"/>
+                            <col style="width: 5%;"/>
+                            <col style="width: 10%;"/>
+                            <col style="width: 10%;"/>
+                            <col style="width: 10%;"/>
+                            <col style="width: 10%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 5%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 4%;"/>
+                            <col style="width: 9%;"/>
+                        </colgroup>
+                        <thead>
+							<tr style="border: 1px solid #CCCCCC ;">
+								<th style="overflow:hidden;white-space:nowrap;"></th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Date</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">H. début</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">H. fin</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Salle</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Entité</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Matière</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Enseignant</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Appariteur</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Remarque enseignant</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Remarque appariteur</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Présents</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Chaire</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Type</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Groupe</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">H. début réel</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">H. fin réel</th>
+								<th style="overflow:hidden;white-space:nowrap;text-align: center;">Date création</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr *ngFor="let presence_e of presences"  style="border: 1px solid #CCCCCC;" [ngClass]="presence_e.annule==1?'canceled':''">
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap; width:15px;"><span class="glyphicon glyphicon-ok" *ngIf="presence_e.valide == 'Y' || presence_e.valide == 'R'" style="color: #5baa1a;"></span>
+								<span class="glyphicon glyphicon-remove" *ngIf="presence_e.valide == 'N' || presence_e.valide == 'Q'" style="color: #eb2a21;"></span></td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.datesem}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.hdebut}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.hfin}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;"><a routerLink="/viewgraphics" [queryParams]="{salles: presence_e.codesalle}"     >{{presence_e.codesalle}}</a></td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;"  pTooltip={{presence_e.codeue}}>{{presence_e.codeue}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;"  pTooltip={{presence_e.codepole}}>{{presence_e.codepole}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.enseignant}}><a routerLink="/viewplanning" [queryParams]="{enseignants: presence_e.enseignant}"     >{{presence_e.enseignant}}</a></td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.appariteur}}>{{presence_e.appariteur}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.rem_ens}}>{{presence_e.rem_ens}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.rem_app}}>{{presence_e.rem_app}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.nbpresents}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.chaire}}>{{presence_e.chaire}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.typecours}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.groupe}}>{{presence_e.groupe}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.hdebut_reel}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;">{{presence_e.hfin_reel}}</td>
+								<td style="padding:0px 0px 0px 0px; overflow:hidden;white-space:nowrap;" pTooltip={{presence_e.datefichier}}>{{presence_e.datefichier}}</td>
+							</tr>
+							</tbody>
+						</table>
+			</div>
+		</div>
+		</div></div>
+	</div>
+</div>
+		<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" 
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
+		<p-header></p-header>
+		<div style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>

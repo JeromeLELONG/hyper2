@@ -1,0 +1,207 @@
+<div @fadeIn>
+
+	<div class="row" *ngIf="showMainForm" style="margin-right: 10px; margin-left: 10px;">
+		<div class="panel panel-default panel-shadow">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Saisie des présences pour le lot
+					{{numeroLot}}</h3>
+			</div>
+
+			<div class="panel-body" style="padding-left: 0; padding-right: 0;">
+				<div class="col-md-2" style="margin-top: 10px; padding-top: 100px; text-align:right;">
+					<div class="row">
+					<button type="button" [ngClass]="styleBoutonPrecedente" (mouseenter) ="styleBoutonPrecedente='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonPrecedente='btn btn-primary input-shadow'"
+						(click)="showPrevFiche()">Fiche
+						précédente</button></div>
+						<div class="row">
+						<div *ngIf="showMainForm" style="opacity:0.6;background-color: #FFFFFF; width:90%;">
+	<div class="panel panel-default panel-shadow">
+	<div class="panel-heading">Lot {{lot[0].nolot}}</div>
+	<div class="panel-body">
+	<ul class="list-group">
+ 	 <ng-template ngFor let-fiche [ngForOf]="lot"
+								let-i="index">
+ 	 <li class="list-group-item" style="padding-top:2px; padding-bottom:2px;">Fiche {{fiche.nofiche}} 
+ 	 <span *ngIf="getPresence(fiche.id).valide != 'Y'" class="glyphicon glyphicon-remove" style="color: red;"></span>
+ 	 <span *ngIf="getPresence(fiche.id).valide == 'Y'" class="glyphicon glyphicon-ok" style="color: green;"></span>
+ 	 </li> 
+ 	 </ng-template>
+	</ul>
+	</div></div>
+	</div></div>
+				</div>
+				<div class="col-md-8">
+					<div class="containersaisie">
+						<form #SaisieLotForm="ngForm" (ngSubmit)="showNextFiche()" (keydown)="EnterForm($event)">
+						<ng-template ngFor let-fiche [ngForOf]="[ selectedFiche ]">
+							<div [@ficheAnimation]="orientation" class="fichesaisie panel-shadow">
+								<div class="namesaisie">
+									<div class="well"
+										style="height: 32px; padding: 0 0 0 0; margin-bottom: 0;" id="title">Fiche {{getFiche(selectedFiche.id).nofiche}} - {{ selectedFiche.typecours }} {{ selectedFiche.codeue }} du {{ selectedFiche.jour }} {{ selectedFiche.datesem }}</div>
+								</div>
+								<div class="well well-sm"
+									style="height: 30px; margin-bottom: 10px; padding-top: 0; font-size: 20px;">{{
+									selectedFiche.chaire }}</div>
+								<div class="row" style="margin-bottom: 3px;">
+									<div class="col-md-6">
+										<div class="well well-sm input-shadow" style="margin-bottom: 3px;">
+											<h4>Semaine du {{getMonday(selectedFiche.dateraw)}} au
+												{{getSunday(selectedFiche.dateraw)}}</h4>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="panel panel-default input-shadow" align="center"
+											style="margin-bottom: 0;">
+											<div class="panel-body" style="padding: 3px 3px 3px 3px;">
+												<div class="row" style="margin-bottom: 0;">
+												<div class="col-md-6">
+												<label for="nb_presents" style="width: 140px; text-align: right; float: left; padding-right: 10px; padding-top: 8px; content: '';">Nombre
+													de présents</label></div>
+													<div class="col-md-6">
+													<input type="number" class="form-control input-shadow"
+													style="margin-top: 10px; width: 90px; height: 40px;"
+													id="nb_presents" name="nb_presents"
+													[(ngModel)]="selectedFiche.nbpresents" />
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin-bottom: 0;">
+
+									<div class="col-md-6">
+										<div class="panel panel-default input-shadow" style="margin-bottom: 5px;">
+											<div class="panel-heading" style="padding: 5px 5px 5px 5px;">Horaire
+												prévu</div>
+											<div class="panel-body" style="padding: 5px 5px 5px 5px;">
+												<ul class="list-group">
+													<li class="list-group-item">Début:{{ selectedFiche.hdebut }}</li>
+													<li class="list-group-item">Fin:{{ selectedFiche.hfin }}</li>
+												</ul>
+											</div>
+										</div>
+										<div class="panel panel-default input-shadow" style="margin-bottom: 5px;">
+											<div class="panel-heading" style="padding: 5px 5px 5px 5px;">Code
+												de la salle</div>
+											<div class="panel-body" style="padding: 5px 5px 5px 5px;">{{
+												selectedFiche.codesalle }}</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="panel panel-default input-shadow" style="margin-bottom: 5px;">
+											<div class="panel-heading" style="padding: 5px 5px 5px 5px;">Horaire
+												réel</div>
+											<div class="panel-body" style="padding: 5px 5px 5px 5px;">
+												<ul class="list-group">
+													<li class="list-group-item"
+														style="padding-top: 7px; padding-bottom: 7px;">
+														<div class="row" style="margin-bottom: 0">
+														<div class="col-md-6" style="text-align:right;">
+														Début réel:
+														</div>
+														<div class="col-md-6" style="text-align:left;">
+														<heuredebut class="input-shadow" [value]="hdebut" (timeChange)="onHeureDebutChange($event)"></heuredebut>
+														</div></div></li>
+													<li class="list-group-item"
+														style="padding-top: 7px; padding-bottom: 7px;">
+														<div class="row" style="margin-bottom: 0">
+														<div class="col-md-6" style="text-align:right;">
+														Fin réelle:
+														</div>
+														<div class="col-md-6" style="text-align:left;">
+														<heurefin class="input-shadow" [value]="hfin" (timeChange)="onHeureFinChange($event)"></heurefin>
+														</div></div></li>
+												</ul>
+											</div>
+										</div>
+										<div class="panel panel-default input-shadow" style="margin-bottom: 5px;">
+											<div class="panel-heading" style="padding: 5px 5px 5px 5px;">Cours
+												annulé</div>
+											<div class="panel-body" style="padding: 2px 2px 4px 2px;">
+												<div class="ui-g-6" style="padding: 0 0 0 0;">
+													<p-radioButton name="group1" value="1" label="Oui"
+														[(ngModel)]="selectedFiche.annule"></p-radioButton>
+												</div>
+												<div class="ui-g-6" style="padding: 0 0 0 0;">
+													<p-radioButton name="group1" value="0" label="Non"
+														[(ngModel)]="selectedFiche.annule"></p-radioButton>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6" style="text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);">
+										<label for="nom_enseignant">Nom de l'enseignant</label><input
+											ng2-auto-complete id="model4" [(ngModel)]="enseignant"
+											class="form-control input-shadow" style="height: 60px; width: 100%;"
+											placeholder="(Entrer au minimum 2 caractères)" (valueChanged)="setNomEnseignant()"
+											[source]="ListeEnseignants" id="nom_enseignant"
+											name="nom_enseignant"	(change)="setNomEnseignant()"
+											no-match-found-text="Aucune entrée trouvée"
+											display-property-name="nom_enseignant" path-to-data="results"
+											loading-text="Recherche en cours..." max-num-list="5"
+											min-chars="2" /> <label for="rem_enseignant">Remarques
+											de l'enseignant</label>
+										<textarea class="form-control input-shadow"
+											style="margin: 0 auto; height: 80px;" id="rem_enseignant"
+											rows="5" name="rem_enseignant" [(ngModel)]="selectedFiche.rem_ens"></textarea>
+									</div>
+									<div class="col-md-6" style="text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);">
+										<label for="nom_appariteur">Nom de l'appariteur</label><input
+											type="text" class="form-control input-shadow"
+											style="width: 100%; height: 60px;" id="nom_appariteur"
+											name="nom_appariteur" [(ngModel)]="selectedFiche.appariteur" /> <label
+											for="rem_appariteur">Remarques de l'appariteur</label>
+										<textarea class="form-control input-shadow"
+											style="margin: 0 auto; height: 80px;" id="rem_appariteur"
+											rows="5" name="rem_appariteur" [(ngModel)]="selectedFiche.rem_app"></textarea>
+									</div>
+								</div>
+							</div>
+							</ng-template>
+						</form>
+					</div>
+				</div>
+
+				<div class="col-md-2" style="margin-top: 10px; padding-top: 100px;">
+					<button type="button" [ngClass]="styleBoutonSuivante" (mouseenter) ="styleBoutonSuivante='btn btn-success input-shadow focusBig'"  (mouseleave) ="styleBoutonSuivante='btn btn-success input-shadow'"
+						(click)="showNextFiche()">Valider et suivante</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+    	
+<modal @fadeIn animation="true" [keyboard]="keyboard"
+	[backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+	(onOpen)="opened()" [cssClass]="cssClass" #modal> <modal-header
+	[show-close]="true">
+<h4 class="modal-title">Entrez le numéro de lot à saisir</h4>
+</modal-header>
+<form #lotinitForm="ngForm" (ngSubmit)="onSubmit()">
+	<modal-body>
+
+	<div class="form-group" align="center">
+		<label for="num_lot"><span class="glyphicon glyphicon-flag" style="color: green;"></span> Numéro de lot</label> <input type="number"
+			autocomplete="off" class="form-control input-shadow" id="num_lot" required
+			(ngModelChange)="verifNumLot($event)" [(ngModel)]="numeroLot"
+			name="num_lot" #num_lot="ngModel">
+		<div [hidden]="!lotInvalid || (numeroLot == null) || verifNolot"
+			class="alert alert-danger shake-animation" style="width: 240px;">Le numéro de
+			lot est incorrect</div>
+		<div [hidden]="lotInvalid" class="alert alert-success tada-animation"
+			style="width: 240px;">Le numéro est valide</div>
+	</div>
+	</modal-body>
+	<modal-footer>
+	<button type="button" [ngClass]="styleBoutonAnnuler" (mouseenter) ="styleBoutonAnnuler='btn btn-default input-shadow focusBig'"  (mouseleave) ="styleBoutonAnnuler='btn btn-default input-shadow'"  data-dismiss="modal"
+		routerLink="/edition" routerLinkActive="active">Annuler</button>
+	<button type="button" [ngClass]="styleBoutonValider" (mouseenter) ="styleBoutonValider='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonValider='btn btn-primary input-shadow'" autofocus
+		[disabled]="!lotinitForm.form.valid || lotInvalid"
+		(click)="confirmLot()">Valider</button>
+	</modal-footer>
+</form>
+</modal>

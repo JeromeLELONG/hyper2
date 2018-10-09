@@ -1,0 +1,35 @@
+{
+  "name": "testse2e",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "node ./src/server.js",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "~4.15.5",
+    "firefox-profile": "1.2.0",
+    "q": "1.5.1",
+    "read-excel-file": "^2.0.2",
+    "selenium-server-standalone-jar": "3.14.0",
+    "superagent": "^4.0.0-beta.5",
+    "superagent-binary-parser": "^1.0.1",
+    "unzipper": "^0.9.3"
+  },
+  "devDependencies": {
+    "@types/jasmine": "~2.8.6",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "~8.9.4",
+    "codelyzer": "~4.2.1",
+    "jasmine-core": "~2.99.1",
+    "jasmine-spec-reporter": "~4.2.1",
+    "protractor": "^5.3.2",
+    "ts-node": "~5.0.1",
+    "tslint": "~5.9.1",
+    "typescript": "~2.7.2"
+  }
+}

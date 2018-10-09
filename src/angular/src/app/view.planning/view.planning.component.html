@@ -1,0 +1,173 @@
+<div @fadeIn>
+	<section>
+		<div class="row" style="margin-right: 10px; margin-left: 10px;">
+			<div class="panel panel-default panel-shadow">
+
+				<div class="panel-heading">
+				<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h3 class="panel-title shadow-headpanel">Liste des cours</h3>
+				</div>
+			    <div class="ui-grid-col-6" style="text-align:right;">
+			    <button type="button" class="btn btn-link" (click)="creerFavoris()" style="padding: 0 0 0 0; font-size: 12px;"><span class="glyphicon glyphicon-paperclip"></span> Sauvegarder ces paramètres dans les favoris</button>
+			    
+			    </div>
+			    </div>
+				</div>
+				<div class="row" style="margin-top: 4px; margin-bottom: 4px;">
+				<div class="col-md-3">
+				<div class="panel panel-default panel-shadow" style="margin-bottom: 10px; border-radius: 40px; height: 90px;">
+  				<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-save-file"></span> Source</h3></div>
+  				<div class="panel-body" style="height: 45px;padding: 2px 2px 2px 2px; ">
+  				<div class="row" style="margin-bottom: 0;">
+  				<div class="col-md-8" style="margin-top: 5px; padding: 0 0 0 20px">
+				<div class="alert alert-info"  style="margin-bottom: 0; text-align: center; padding: 2px 2px 2px 2px;">
+  				<strong *ngIf="sourceIsPresence"> Presence</strong>
+  				<strong *ngIf="!sourceIsPresence">HyperPlanning</strong>
+				</div>
+				</div>
+				<div class="col-md-4" style="padding: 4px 4px 4px 4px;">
+				<ui-switch color="#A9D0F5" (change)="switchSource($event)"></ui-switch>
+				</div></div></div></div>  
+      			</div>
+    
+				<div class="col-md-3">
+				<div class="panel panel-default panel-shadow" style="margin-bottom: 10px; border-radius: 40px;  height: 90px;">
+  				<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-user"></span> Enseignant</h3></div>
+  				<div class="panel-body" style="height: 45px;padding: 8px 8px 8px 8px;">
+  				<div class="row">
+  				<div class="col-md-2" style="padding-left: 10px; padding-right: 0; padding-top:6px;">
+  				<span class="glyphicon glyphicon-hand-right"></span>
+  				</div>
+  				<div class="col-md-10" style="padding-left: 0; padding-right: 8px;"><ss-multiselect-custom [options]="optionsEnseignants"
+  				[(ngModel)]="selectedOptionsEnseignants" popoverPlacement="top" popover="Si aucun enseignant n'est sélectionné, l'ensemble des données de présence seront récupérées" [popoverOnHover]="true" [popoverDismissTimeout]="1000"
+  				(ngModelChange)="modifFilterEnseignant()" [texts]="textesSelection" 
+  				[settings]="parametresSelection"></ss-multiselect-custom></div></div>
+				</div>
+				</div>
+				</div>
+				<div class="col-md-3">
+				<div class="panel panel-default panel-shadow" style="margin-bottom: 10px; border-radius: 40px;  height: 90px;">
+  				<div class="panel-heading" style="padding: 5px 5px 5px 5px;  border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-home"></span> Salle</h3></div>
+  				<div class="panel-body" style="height: 45px;padding: 8px 8px 8px 8px;">
+  				<div class="row">
+  				<div class="col-md-2" style="padding-left: 10px; padding-right: 0px;  padding-top:6px;">
+  				<span class="	glyphicon glyphicon-hand-right"></span>
+  				</div>
+  				<div class="col-md-10" style="padding-left: 0px; padding-right: 8px;">
+  				<ss-multiselect-custom [options]="optionsSalles" popoverPlacement="top" popover="Si aucune salle n'est sélectionnée, l'ensemble des données de présence seront récupérées" [popoverOnHover]="true" [popoverDismissTimeout]="1000"
+  				[(ngModel)]="selectedOptionsSalles" 
+  				(ngModelChange)="modifFilterSalle()" [texts]="textesSelection" 
+  				[settings]="parametresSelection"></ss-multiselect-custom></div></div>
+  				</div>
+				</div>
+				</div>
+				<div class="col-md-3">
+				<div class="panel panel-default panel-shadow" style="margin-bottom: 10px; border-radius: 40px;  height: 90px;">
+  				<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-book"></span> Matière</h3></div>
+  				<div class="panel-body" style="height: 45px;padding: 8px 8px 8px 8px;">
+  				<div class="row">
+  				<div class="col-md-2" style="padding-left: 10px; padding-right: 0px; padding-top:6px;">
+  				<span class="glyphicon glyphicon-hand-right"></span>
+  				</div>
+  				<div class="col-md-10" style="padding-left: 0px; padding-right: 8px;">
+  				<ss-multiselect-custom [options]="optionsMatieres" popoverPlacement="top" popover="Si aucune matière n'est sélectionnée, l'ensemble des données de présence seront récupérées" [popoverOnHover]="true" [popoverDismissTimeout]="1000"
+  				[(ngModel)]="selectedOptionsMatieres" 
+  				(ngModelChange)="modifFilterMatiere()" [texts]="textesSelection" 
+  				[settings]="parametresSelection"></ss-multiselect-custom></div></div>
+  				</div>
+				</div>
+				</div>
+				</div>
+				<p-schedule [events]="events" (onViewRender)="getCours($event)" [locale]="fr" [header]="headerConfig" allDayText="jour complet" [editable]="true"
+				(onEventMouseover)="afficherDetailSeance($event)" (onEventMouseout)="dialogVisible=false"></p-schedule>
+<!--  
+				<p-schedule [events]="events" [defaultDate]="start" (onViewRender)="getCours($event)" [locale]="fr"
+				[header]="headerConfig" allDayText="jour complet" [editable]="true"
+				(onEventMouseover)="afficherDetailSeance($event)" (onEventMouseout)="dialogVisible=false"></p-schedule> -->
+<div *ngIf="sourceIsPresence && event && dialogVisible" style="width: 280px; height: 280px;     position:fixed !important;
+    position: absolute; /*ie6 */ top: 300px; left: 15px; z-index:1; border-radius: 30px;
+    background: rgb(245,246,246); /* Old browsers */
+background: -moz-linear-gradient(-45deg, rgba(245,246,246,1) 0%, rgba(219,220,226,1) 21%, rgba(184,186,198,1) 49%, rgba(221,223,227,1) 80%, rgba(245,246,246,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, rgba(245,246,246,1) 0%,rgba(219,220,226,1) 21%,rgba(184,186,198,1) 49%,rgba(221,223,227,1) 80%,rgba(245,246,246,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+ " class="panel-shadow fade-animation">
+<p-chart type="pie" [data]="data"></p-chart>
+</div>
+
+<p-dialog header="Détails du cours" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="false" [contentStyle]="{'overflow':'visible'}"
+    [style]="{'overflow':'visible', 'margin-left': marginLeftDialog}" [resizable]="false" width="260" [(closable)]="closable" styleClass="panel-shadow">
+    <div class="ui-grid ui-grid-responsive ui-fluid fade-animation" *ngIf="sourceIsPresence">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Titre:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{event.title}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>H. début:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{presence.hdebut}}</div>
+        </div>
+                <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>H. fin:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{presence.hfin}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Enseignant:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{presence.enseignant}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Présents:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{presence.nbpresents}}</div>
+        </div>
+       <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Salle:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{presence.codesalle}}</div>
+        </div>
+        
+    </div>
+   <div class="ui-grid ui-grid-responsive ui-fluid fade-animation" *ngIf="!sourceIsPresence">
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Titre:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{event.title}}</div>
+        </div>
+                <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>H. début:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{coursActif.hdebut}}</div>
+        </div>
+                <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>H. fin:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{coursActif.hfin}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Enseignant:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{coursActif.enseignant}}</div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-4" style="text-align: right;"><label>Salle:</label></div>
+            <div class="ui-grid-col-8" style="margin-left:4px">{{coursActif.codesalle}}</div>
+        </div>
+    </div>
+</p-dialog>
+			</div>
+		</div>
+	</section>
+</div>
+		        
+
+		<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" styleClass="panel-shadow"
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable">
+		<p-header></p-header>
+		<div  class="fade-animation" style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>
+		
+		<p-dialog [(visible)]="displaySuccessFavoris" [modal]="false"
+		width="180" responsive="true" [closable]="false" [resizable]="false" [styleClass]="styleDialogFavoris">
+		    <p-header>
+        <div style="text-align: center;">Favori sauvé</div>
+    	</p-header>
+    		<div style="text-align: center;">Visualiser le planning avec 
+    		<div *ngIf="getSallesSelectionnees().length" style="white-space: normal;"><br>les salles<br><b>{{getSallesSelectionnees().join(' ')}}</b></div>
+    		<div *ngIf="getEnseignantsSelectionnes().length" style="white-space: normal;"><br>les enseignants<br><b>{{getEnseignantsSelectionnes().join(' ')}}</b></div>
+    		<div *ngIf="getMatieresSelectionnees().length" style="white-space: normal;"><br>les matieres<br><b>{{getMatieresSelectionnees().join(' ')}}</b></div>
+    		</div>
+		</p-dialog>

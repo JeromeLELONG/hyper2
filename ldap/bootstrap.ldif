@@ -1,0 +1,23 @@
+
+dn: uid=lelongj, dc=cnam,dc=fr
+changetype: add
+uid: lelongj
+cn: lelongj
+sn: Jeon
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+objectClass: personnelcnam
+loginShell: /bin/bash
+homeDirectory: /home/billy
+uidNumber: 14583102
+gidNumber: 14564100
+userPassword: motdepasse
+mail: billy@example.org
+gecos: Billy User
+acl: o
+fullname: null
+casecourrier: EPN10
+codeservice: EPN10
+civilite: M.
+givenName: Gyeong-Mi

@@ -1,0 +1,16 @@
+{
+    "/app/**": {
+      "target": "http://localhost:4200/",
+      "pathRewrite": {
+        "^/app": ""
+      }
+    },
+      "/sockjs-node/": {
+        "target": "http://localhost:4200/",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/sockjs-node": "/test"
+        }
+      }
+  }

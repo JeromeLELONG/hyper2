@@ -1,0 +1,24 @@
+dn: cn=schema
+objectClass: top
+objectClass: ldapSubentry
+objectClass: subschema
+##
+## The new attribute type
+##
+attributeTypes: ( stackOverflowQuestionID-oid
+  NAME 'stackOverflowQuestionID'
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  SINGLE-VALUE
+  DESC 'Describes the ID of a stack overflow question.'
+  X-ORIGIN 'StackOverflow question.' )
+##
+## An existing object class
+##
+objectClasses: ( stackOverflow-oid NAME 'stackOverflow'
+  SUP top
+  STRUCTURAL
+  MUST cn
+  MAY (
+    description $
+    stackOverflowQuestionID
+  ) X-ORIGIN 'StackExchange network' )

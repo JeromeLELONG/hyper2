@@ -1,0 +1,145 @@
+
+<div class="row">
+	<div class="ui-g-12 ui-md-3 fade-animation">
+		<div class="panel panel-default panel-shadow"
+			style="border-radius: 40px;">
+			<div class="panel-heading"
+				style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+				<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;">
+					<span class="glyphicon glyphicon-calendar"></span> Date de début
+				</h3>
+			</div>
+			<div class="panel-body"
+				style="height: 70px; padding: 5px 20px 5px 45px;">
+				<p-calendar [(ngModel)]="dateDebut" [locale]="globals.frLabel"
+					[style]="{'border-radius':'20px','margin-bottom':'14px'}"
+					styleClass="input-shadow" (mouseenter)="margin='220px'"
+					(mouseleave)="margin='0'" (onSelect)="SelectDate()"
+					dateFormat="dd/mm/yy" [maxDate]="dateFin"></p-calendar>
+				<br>&nbsp;&nbsp; {{dateDebutString}}
+			</div>
+		</div>
+
+
+	</div>
+	<div class="ui-g-12 ui-md-3 fade-animation">
+		<div class="panel panel-default panel-shadow"
+			style="border-radius: 40px;">
+			<div class="panel-heading"
+				style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+				<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;">
+					<span class="glyphicon glyphicon-calendar"></span> Date de fin
+				</h3>
+			</div>
+			<div class="panel-body"
+				style="height: 70px; padding: 5px 20px 5px 45px;">
+				<p-calendar [(ngModel)]="dateFin" [locale]="globals.frLabel"
+					[style]="{'border-radius':'20px','margin-bottom':'14px'}"
+					styleClass="input-shadow" (mouseenter)="margin='220px'"
+					(mouseleave)="margin='0'" (onSelect)="SelectDate()"
+					dateFormat="dd/mm/yy" [minDate]="dateDebut"></p-calendar>
+				<br>&nbsp;&nbsp; {{dateFinString}}
+			</div>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-md-4 fade-animation">
+
+		<div class="panel panel-default panel-shadow"
+			style="border-radius: 40px;">
+			<div class="panel-heading"
+				style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+				<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;">
+					<span class="glyphicon glyphicon-home"></span> Choisir les salles
+				</h3>
+			</div>
+			<div class="panel-body"
+				style="height: 70px; padding: 5px 5px 5px 5px;">
+				<p-multiSelect [options]="salles" [(ngModel)]="selectedSalles"
+					(onChange)="SelectSalles()" defaultLabel="Sélectionner"
+					styleClass="input-shadow"
+					[style]="{'width':'100%', 'height':'40px'}"
+					(mouseenter)="margin='220px'" (mouseleave)="margin='0'"
+					selectedItemsLabel='{0} élements sélectionnées'></p-multiSelect>
+			</div>
+		</div>
+	</div>
+	<div class="ui-g-12 ui-md-2 fade-animation">
+
+		<div class="panel panel-default panel-shadow"
+			style="border-radius: 40px;">
+			<div class="panel-heading"
+				style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+				<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;">
+					<span class="glyphicon glyphicon-home"></span> Choisir le groupe
+				</h3>
+			</div>
+			<div class="panel-body"
+				style="height: 70px; padding: 5px 5px 5px 5px;">
+			<div class="col-md-4" style="padding:5px 18px 0 0;text-align:right;">Groupe:</div>
+<div class="col-md-8" style="padding:0 15 0 0;">
+<select [(ngModel)]="selectedGroupe" (change)="selectGroupe()" class="form-control input-shadow">
+<ng-template ngFor let-groupe [ngForOf]="listeGroupes"
+								let-i="index">
+<option value={{groupe.value}}>{{groupe.label}}</option>
+</ng-template>
+</select></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row"
+	[ngStyle]="{'margin-top': margin,'-moz-transition': 'all 0.3s ease-out','-o-transition': 'all 0.3s ease-out'  ,
+    '-webkit-transition': 'all 0.3s ease-out',  '-ms-transition': 'all 0.3s ease-out',  'transition': 'all 0.3s ease-out' }"
+	(mouseenter)="tableHover=true" (mouseleave)="tableHover=false">
+	<p-contextMenu [global]="true" [model]="items" *ngIf="tableHover"
+		[style]="{'border-radius':'0 0 0 0'}"></p-contextMenu>
+	<ngx-datatable [ngClass]="styleDatatable" [rows]="rows"
+		[columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+		[rowHeight]="30" [selected]="selected" [selectionType]="'multi'"
+		[scrollbarH]="true" [messages]="messages" [limit]="100" [scrollbarH]="true"
+		(rowContextmenu)="ContextMenu($event)" oncontextmenu="return false;">
+	<ngx-datatable-column
+		name="Datetexte" width="80"> </ngx-datatable-column> <ngx-datatable-column
+		name="Heuredebut" width="50"> </ngx-datatable-column> <ngx-datatable-column
+		name="Heurefin" width="50"> </ngx-datatable-column> <ngx-datatable-column
+		name="Codesalle" width="74"> </ngx-datatable-column> <ngx-datatable-column
+		name="Codematiere" width="85"> </ngx-datatable-column> <ngx-datatable-column
+		name="Libellematiere" width="100"> </ngx-datatable-column> <ngx-datatable-column
+		name="Jour" width="70"> </ngx-datatable-column> <ngx-datatable-column
+		name="Enseignant" width="130"> </ngx-datatable-column> <ngx-datatable-column
+		name="Appariteur" width="130"> </ngx-datatable-column> <ngx-datatable-column
+		name="Remarqueenseignant"> </ngx-datatable-column> <ngx-datatable-column
+		name="Remarqueappariteur"> </ngx-datatable-column> <ngx-datatable-column
+		name="Presents" width="30"> </ngx-datatable-column> <ngx-datatable-column
+		name="Chaire" width="55"> </ngx-datatable-column> <ngx-datatable-column
+		name="Valide" width="55"> </ngx-datatable-column> <ngx-datatable-column
+		name="Typecours" width="76"> </ngx-datatable-column> <ngx-datatable-column
+		name="Groupe" width="70"> </ngx-datatable-column> <ngx-datatable-column
+		name="Annule" width="55"> </ngx-datatable-column> <ngx-datatable-column
+		name="Heuredebutreel" width="108"> </ngx-datatable-column> <ngx-datatable-column
+		name="Heurefinreel" width="90"> </ngx-datatable-column> <ngx-datatable-column
+		name="Datefichier" width="86"> </ngx-datatable-column> <ngx-datatable-column
+		name="Video" width="62"> </ngx-datatable-column> </ngx-datatable>
+</div>
+
+<modal [animation]="animation" [keyboard]="keyboard" [size]="sm"
+	[backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+	(onOpen)="opened()" cssClass="modal-custom" #modal> <modal-body>
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="col-md-10" style="padding: 0 0 0 0;">
+		<button type="button" class="btn btn-primary"
+			(click)="telechargerSelection()">
+			<span class="glyphicon glyphicon-download-alt"></span>Exporter la
+			sélection
+		</button>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+</modal-body> </modal>
+
+		<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" 
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
+		<p-header></p-header>
+		<div style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>

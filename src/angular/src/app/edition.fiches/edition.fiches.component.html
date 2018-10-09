@@ -1,0 +1,145 @@
+<div @fadeIn>
+	<section>
+		<div class="row" style="margin-right: 10px; margin-left: 10px;">
+			<div class="panel panel-default panel-shadow">
+
+				<div class="panel-heading">
+				<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h3 class="panel-title shadow-headpanel">Edition des fiches de présences</h3>
+			    </div>
+			    <div class="ui-grid-col-6" style="text-align:right;">
+			    <button type="button" class="btn btn-link" (click)="creerFavoris()" style="padding: 0 0 0 0; font-size: 12px;" [disabled]="favoriButtonDisabled"><span class="glyphicon glyphicon-paperclip"></span> Sauvegarder ces paramètres dans les favoris</button>
+			    
+			    </div>
+			    </div>
+				</div>
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-4">
+					<div class="panel panel-default panel-shadow" style="height: 180px; border-radius: 40px;">
+					  <div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-calendar"></span> Choix de la date</h3></div>
+  						<div class="panel-body" style="padding-left: 45px;">
+  						<p-calendar id="date-value" [(ngModel)]="dateSelect" [locale]="globals.frLabel" [disabled]="dateDisabled" [style]="{'border-radius':'20px','margin-bottom':'14px'}" styleClass="input-shadow"
+							(onSelect)="getCours()" dateFormat="dd/mm/yy"></p-calendar><br>
+						{{dateSelectString}} <br>
+						<br>
+						<p-inputSwitch onLabel="Journée" offLabel="Soir" [disabled]="trancheHoraireDisabled" styleClass="input-shadow"
+							[(ngModel)]="trancheHoraire" (onChange)="getCours()"></p-inputSwitch>
+						<br>
+						<br>
+						
+  						</div>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+					<p-checkbox name="group1" value="Oui" label="Sélectionner tout" [(ngModel)]="selectionnerTout" (click)="SelectAll()"></p-checkbox>
+					</div>
+					<div class="ui-g-12 ui-md-6">
+					<button id="batchButton" pButton type="text" (click)="creationLot()" [ngClass]="styleBoutonCreation" (mouseenter) ="isNotValid?styleBoutonCreation='ui-button-danger input-shadow':styleBoutonCreation='ui-button-success input-shadow focusBig'"  (mouseleave) ="isNotValid?styleBoutonCreation='ui-button-danger input-shadow':styleBoutonCreation='ui-button-success input-shadow'"
+							[icon]="isNotValid?'fa-exclamation-triangle':'fa-check'" label="Lancer l'édition" [disabled]="isNotValid"></button>
+					</div>
+					</div>
+					<div class="ui-g-12 ui-md-4" style="width: 66%;">
+					<div class="panel panel-default panel-shadow" style="height: 220px; border-radius: 40px;">
+  					<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Choix du groupe</h3></div>
+  					<div class="panel-body">
+  					<p-selectButton id="selectGroupe" [options]="types" [(ngModel)]="selectedType" [disabled]="groupeDisabled" styleClass="selectpicker btn-default input-shadow"
+							(onChange)="getCours()"></p-selectButton>
+					<div style="font-size:12px;font-style: italic; margin-top:8px;"><span class="glyphicon glyphicon-asterisk"></span> Remarque: les lignes avec le marqueur <img style="border: 1px solid #CCCCCC ;" src="img/striped.png" height="32" width="32"/> ont déjà été éditées dans un lot
+					</div>
+  					</div>
+					</div>
+					</div>
+				</div>
+				<table class="table table-striped table-responsive panel-shadow" style="border: 1px solid #CCCCCC ;table-layout: fixed;width: 1100px; margin-bottom: 15px;" align="center" *ngIf="cours.length">
+					<tr style="border: 1px solid #CCCCCC ;"><div style="text-align: center;">
+						<th style="width: 80px;"></th>
+						<th style="width: 80px;">Jour</th>
+						<th style="width: 80px;">H.déb</th>
+						<th style="width: 80px;">H.fin</th>
+						<th style="width: 80px;">Salle</th>
+						<th style="width: 120px;">Enseignant</th>
+						<th style="width: 120px;">Matière</th>
+						<th style="width: 120px;">Diplôme</th>
+						<th style="width: 120px;">Matériel</th>
+						<th style="width: 160px;">Infos.</th>
+						<th style="width: 150px;">Détails Accès
+						<th>
+					</div></tr>
+					<!-- (@flyInOut.start)="animationStarted($event)"
+        (@flyInOut.done)="animationDone($event)" -->
+					<tr *ngFor="let cours_e of cours" [@flyInOut]="'in'" style="border: 1px solid #CCCCCC;" [ngClass]="styleLineCours(cours_e.id)">
+					<div [ngClass]="styleLineCours(cours_e.id)">
+						<td style="width: 80px; padding:5px 5px 5px 10px;">
+						<p-checkbox name="group2" *ngIf="cours_e"
+								value="{{cours_e.id}}" label="" [(ngModel)]="selectionFiches"
+								(onChange)="isValid()"></p-checkbox></td>
+						<td *ngIf="cours_e" style="width: 80px;">{{cours_e.ddebut}}</td>
+						<td *ngIf="cours_e" style="width: 80px;">{{cours_e.hdebut}}</td>
+						<td *ngIf="cours_e" style="width: 80px;">{{cours_e.hfin}}</td>
+						<td *ngIf="cours_e" style="width: 80px;"><a routerLink="/viewplanning" [queryParams]="{salles: cours_e.codesalle}"     >{{cours_e.codesalle}}</a></td>
+						<td *ngIf="cours_e" style="width: 120px;"><a routerLink="/viewplanning" [queryParams]="{enseignants: cours_e.enseignant}"     >{{cours_e.enseignant}}</a></td>
+						<td *ngIf="cours_e" style="width: 120px;">{{cours_e.codemat}}</td>
+						<td *ngIf="cours_e" style="width: 120px;">{{cours_e.codediplome}}</td>
+						<td *ngIf="cours_e" style="width: 120px;">{{getMateriel(cours_e.numero)}}</td>
+						<td *ngIf="cours_e" style="width: 160px;">{{cours_e.memo}}</td>
+						<td *ngIf="cours_e" style="width: 150px;">{{cours_e.salle}}</td>
+						</div>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</section>
+		</div>
+		<modal [animation]="animation" [keyboard]="keyboard"
+			[backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+			(onOpen)="opened()" [cssClass]="cssClass" #modal>
+		<div class="center" *ngIf="loading">
+		<br><div class="blink">
+		<ng2-slim-loading-bar  [height]="'30px'"></ng2-slim-loading-bar>
+			Le fichier est en cours de création...</div>
+		</div>
+		<div *ngIf="!loading">
+			<modal-header [show-close]="true">
+			<h4 class="modal-title">Nouveau lot de fiches créé</h4>
+			</modal-header>
+			<modal-body>
+
+
+			<table class="table table-striped table-responsive fade-animation"> 
+				<tr>
+					<th style="width: 4%;">N° lot</th>
+					<th style="width: 4%;">N° fiche</th>
+					<th style="width: 4%;">Date</th>
+					<th style="width: 4%;">H. début</th>
+					<th style="width: 4%;">H. fin</th>
+					<th style="width: 4%;">Salle</th>
+					<th style="width: 4%;">Infos supplémentaires</th>
+				</tr>
+				<tr *ngFor="let fiche of lot">
+					<td>{{fiche.nolot}}</td>
+					<td>{{fiche.nofiche}}</td>
+					<td>{{getCoursWithID(fiche.id).ddebut}}</td>
+					<td>{{getCoursWithID(fiche.id).hdebut}}</td>
+					<td>{{getCoursWithID(fiche.id).hfin}}</td>
+					<td>{{getCoursWithID(fiche.id).codesalle}}</td>
+					<td>{{getCoursWithID(fiche.id).memo}}</td>
+				</tr>
+			</table>
+
+			</modal-body>
+			<modal-footer>
+			<button type="button" [ngClass]="styleBoutonAnnuler" (mouseenter) ="styleBoutonAnnuler='btn btn-default input-shadow focusBig'" (mouseleave) ="styleBoutonAnnuler='btn btn-default input-shadow'" data-dismiss="modal"
+				(click)="modal.dismiss()">Fermer</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="button" [ngClass]="styleBoutonTelecharger" (mouseenter) ="styleBoutonTelecharger='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonTelecharger='btn btn-primary input-shadow'"  autofocus
+				(click)="lancerProgressEdition()" id="download" name="download" [disabled]="downloadDisabled">Télécharger la liste des fiches pour impression</button>
+			</modal-footer>
+		</div>
+		</modal>
+		<p-dialog [(visible)]="displaySuccessFavoris" [modal]="false"
+		width="180" responsive="true" [closable]="false" [resizable]="false" [styleClass]="styleDialogFavoris">
+		    <p-header>
+        <div style="text-align: center;">Favori sauvé</div>
+    	</p-header>
+    		<div style="text-align: center;">Edition d'un lot de fiches avec le
+    		groupe <b>{{currentGroupe}}</b></div>
+		</p-dialog>

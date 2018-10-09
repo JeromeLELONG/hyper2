@@ -1,0 +1,90 @@
+
+<div class="row" @SlideFromTop (mouseover)="showGraph=false" style="margin-right: 10px; margin-left: 10px;">
+	<div class="col-lg-3" style="padding: 0 10px 0 0;">
+		<div class="panel panel-info panel-shadow">
+			<div class="panel-heading shadow-headpanel">Préférences</div>
+			<div class="panel-body">
+				<div class="list-group">
+						<ng-template ngFor let-favori [ngForOf]="favoris"
+								let-i="index"> <li class="list-group-item" style="padding:5px 25px 5px 25px;" [id]="'listeFavoris'+(i+1).toString()">
+						<div class="row" style="margin-bottom: 5px;">
+						<div class="ui-grid-col-10">
+						<div *ngIf="favori.routerlink == '/viewplanning'" style="padding-top:5px;">
+						<button style="white-space: normal; width: 95%;" [ngClass]="stylesFavoris[i]" (mouseenter) ="stylesFavoris[i]='btn btn-primary btn-block input-shadow focus'"  (mouseleave) ="stylesFavoris[i]='btn btn-primary btn-block input-shadow'"
+						[routerLink]="favori.routerlink" [queryParams]="{salles: getFavoriString(favori.params.salles) , enseignants: getFavoriString(favori.params.enseignants), matieres: getFavoriString(favori.params.matieres) }">
+						<div class="row" style="padding: 0 0 0 0; margin: 0 0 0 0;"><div class="ui-grid-col-1"><span class="glyphicon glyphicon-th-list"></span>
+						</div><div class="ui-grid-col-11"> {{favori.libelle.substring(0,60)}}</div></div></button>
+						</div> 
+						<div *ngIf="favori.routerlink == '/edition'" style="padding-top:5px;">
+						<button style="white-space: normal; width: 95%;" [ngClass]="stylesFavoris[i]" (mouseenter) ="stylesFavoris[i]='btn btn-primary btn-block input-shadow focus'"  (mouseleave) ="stylesFavoris[i]='btn btn-primary btn-block input-shadow'"
+						[routerLink]="favori.routerlink" [queryParams]="{groupe: favori.params.groupe}">
+						<div class="row" style="padding: 0 0 0 0; margin: 0 0 0 0;"><div class="ui-grid-col-1"><span class="glyphicon glyphicon-copy"></span></div><div class="ui-grid-col-11"> {{favori.libelle.substring(0,60)}}</div></div></button> 
+						</div>
+						<div *ngIf="favori.routerlink == '/viewgraphics'" style="padding-top:5px;">
+						<button style="white-space: normal; width: 95%;" [ngClass]="stylesFavoris[i]"  (mouseenter) ="stylesFavoris[i]='btn btn-primary btn-block input-shadow focus'"  (mouseleave) ="stylesFavoris[i]='btn btn-primary btn-block input-shadow'"
+						[routerLink]="favori.routerlink" [queryParams]="{salles: getFavoriString(favori.params.salles)}">
+						<div class="row" style="padding: 0 0 0 0; margin: 0 0 0 0;"><div class="ui-grid-col-1"><span class="glyphicon glyphicon-stats"></span></div><div class="ui-grid-col-11"> {{favori.libelle.substring(0,60)}}</div></div></button> 
+						</div>
+						</div>
+						<div class="ui-grid-col-1" style="padding:12px 5px 5px 10px;">
+						<button [ngClass]="stylesModify[i]" (mouseenter) ="stylesModify[i]='btn btn-info input-shadow focusBig'"  (mouseleave) ="stylesModify[i]='btn btn-info input-shadow'" style="padding:1px 1.5px 1px 1px; font-size: 12px;" type="button" (click)="editerFavori(favori)"><i class="glyphicon glyphicon-pencil"></i></button>
+						</div>
+						<div class="ui-grid-col-1" style="padding:12px 5px 5px 10px;">
+						<button [ngClass]="stylesDelete[i]" (mouseenter) ="stylesDelete[i]='btn btn-danger input-shadow focusBig'"  (mouseleave) ="stylesDelete[i]='btn btn-danger input-shadow'" style="padding:1px 2px 1px 1px; font-size: 12px;" type="button" (click)="supprimerFavori(favori.id_favoris,i)"><i class="glyphicon glyphicon-trash"></i></button>
+  						</div>
+  						</div>
+  						</li>
+						</ng-template>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="showGraph" style="width: 350px; height: 350px;     position:fixed !important; 
+    position: absolute; /*ie6 */ top: 300px; left: 15px; z-index:1; border-radius: 30px;" class="panel-shadow fade-animation">
+<chart [options]="options"></chart>
+</div>
+	<div class="col-lg-9" >
+
+		<div class="panel panel-default panel-shadow" 
+			@SlideFromRight>
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel" id="welcome">Bienvenue sur l'application de gestion des présences</h3>
+			</div>
+			<div class="panel-body">
+
+				<div class="panel panel-success panel-shadow">
+					<div class="panel-heading">Mes derniers lots traités</div>
+					<div class="panel-body">
+						<div class="list-group" @fadeIn>
+							<ng-template ngFor let-fiche [ngForOf]="getLotsUtilisateur()" 
+								let-i="index"> <a [id]="fiche.nolot.toString()" routerLink="/saisie-fiches" popover="Cliquer pour saisir ce lot" popoverOnHover="true" popoverDismissTimeout="1000"
+								[queryParams]="{lot: fiche.nolot}" [ngClass]="lotStyleList[i]" *ngIf="i < 10"
+								(mouseenter)="showLot(fiche.nolot,i)" (mouseleave)="closeLot(i)"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Lot n°{{fiche.nolot}} - {{nbFiches(fiche.nolot)}} fiches - Groupe {{fiche.groupe}} - Edité le {{getFormatedDate(fiche.heure_edition)}}</a> 
+								</ng-template>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+		<p-dialog [(visible)]="displayEditFavoris" [modal]="false"
+		width="300" responsive="true" [closable]="false" [resizable]="false" [styleClass]="styleDialogFavoris">
+		    <p-header>
+        <div style="text-align: center;">Edition favori</div>
+    	</p-header>
+    	<form (ngSubmit)="saveFavori()" #favoriForm="ngForm">
+			<div class="row">
+			<div class="col-md-2" style="padding: 45px 5px 0 0;">Libellé</div>
+			<div class="col-md-10">
+			<textarea class="form-control panel-shadow"
+			style="margin: 0 auto; resize: none;" id="libelleFavori" required maxlength="128"
+			rows="6" name="libelleFavori" (ngModel)="activeFavori.libelle" #libelleFavori="ngModel"></textarea>
+			</div></div>
+			<div class="row">
+				<button type="button" class="btn btn-primary" autofocus style="margin-left:90px;"
+		[disabled]="!favoriForm.form.valid" (click)="saveFavori()">Sauvegarder</button>
+		    </div>
+		</form>
+		</p-dialog>

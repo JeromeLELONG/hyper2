@@ -1,0 +1,36 @@
+<?php    
+if (count($results) > 0) {
+    $fh = @fopen( 'php://output', 'w' );
+    fputcsv($fh, $columnHeaders,';');
+    foreach ($results as $result) {
+        fputcsv($fh, array(
+            $result->id,
+            utf8_decode($result->nom),
+            utf8_decode($result->prenom),
+            utf8_decode($result->statut),
+            $result->hdr,
+            $result->phd_advising,
+            $result->phd_number,
+            utf8_decode($result->team),
+            utf8_decode(str_replace('’','\'',$result->pub)),
+            $result->year,
+            utf8_decode($result->revue),
+            $result->code_travaux,
+            $result->class_hceres,
+            $result->class_cnrs,
+            $result->class_fnege,
+            $result->issn,
+            utf8_decode($result->auteur1_name),
+            utf8_decode($result->auteur2_name),
+            utf8_decode($result->auteur3_name),
+            utf8_decode($result->auteur4_name),
+            $result->auteur1_member,
+            $result->auteur2_member,
+            $result->auteur3_member,
+            $result->auteur4_member,
+            $result->doublon,
+            $result->time
+        ),';');
+    }
+    fclose($fh);
+}

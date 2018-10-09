@@ -1,0 +1,69 @@
+<div class="row">
+<div class="col-md-2" style="padding:5px 10px 0 0; text-align:right;">Date de début:</div>
+<div class="col-md-2" style="padding:0 0 0 0;">
+<p-calendar [(ngModel)]="dateDebut" [locale]="globals.frLabel" [style]="{'border-radius':'20px'}" styleClass="input-shadow"
+						(onSelect)="getPresence()" dateFormat="dd/mm/yy" [maxDate]="dateFin"></p-calendar></div>
+<div class="col-md-2" style="padding:5px 0 0 0; text-align:right;">Date de fin:</div>
+<div class="col-md-2" style="padding:0 0 0 12px;">
+<p-calendar [(ngModel)]="dateFin" [locale]="globals.frLabel" [style]="{'border-radius':'20px'}" styleClass="input-shadow"
+				(onSelect)="getPresence()" dateFormat="dd/mm/yy"
+				[minDate]="dateDebut"></p-calendar></div>
+<div class="col-md-1" style="padding:5px 18px 0 0;text-align:right;">Types:</div>
+<div class="col-md-3" style="padding:0 0 0 0;">
+<p-multiSelect [options]="types" [(ngModel)]="selectedTypes" (onChange)="getPresence()" defaultLabel="Sélectionner" selectedItemsLabel="{0} éléments sélectionnés"
+[style]="{'width':'100%', 'height':'60px'}" styleClass="input-shadow"></p-multiSelect></div>
+</div>
+<div class="row">      
+      <div style="height:300px;">
+     <ngx-charts-bar-vertical
+        class="chart-container"
+        legendTitle="Légende"
+        [view]="view"
+        [scheme]="colorScheme"
+        [schemeType]="schemeType"
+        [results]="single"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [showGridLines]="showGridLines"
+        [barPadding]="barPadding"
+        [roundDomains]="roundDomains"
+        (select)="selectData($event)"
+        (legendLabelClick)="onLegendLabelClick($event)">
+      </ngx-charts-bar-vertical>
+      
+	</div>
+
+</div>
+<div class="row">      
+      <div style="height:300px;">
+
+  <ngx-charts-pie-chart
+        class="chart-container"
+        [view]="view"
+        legendTitle="Légende"
+        [scheme]="colorScheme"
+        [results]="single"
+        [legend]="showLegend"
+        [explodeSlices]="explodeSlices"
+        [labels]="showLabels"
+        [doughnut]="doughnut"
+        [arcWidth]="arcWidth"
+        (legendLabelClick)="onLegendLabelClick($event)"
+        [gradient]="gradient"
+        (select)="selectData($event)">
+      </ngx-charts-pie-chart>
+	</div>
+
+</div>
+		<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" 
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
+		<p-header></p-header>
+		<div style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>
+

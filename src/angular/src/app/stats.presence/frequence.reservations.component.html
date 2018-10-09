@@ -1,0 +1,63 @@
+<div class="row">
+<div class="col-md-2" style="padding:5px 10px 0 0; text-align:right;">Date de début:</div>
+<div class="col-md-2" style="padding:0 0 0 0;">
+<p-calendar [(ngModel)]="dateDebut" [locale]="globals.frLabel" [style]="{'border-radius':'20px'}" styleClass="input-shadow"
+						(onSelect)="getPresence()" dateFormat="dd/mm/yy" [maxDate]="dateFin"></p-calendar></div>
+<div class="col-md-2" style="padding:5px 0 0 0; text-align:right;">Date de fin:</div>
+<div class="col-md-2" style="padding:0 0 0 12px;">
+<p-calendar [(ngModel)]="dateFin" [locale]="globals.frLabel" [style]="{'border-radius':'20px'}" styleClass="input-shadow"
+				(onSelect)="getPresence()" dateFormat="dd/mm/yy"
+				[minDate]="dateDebut"></p-calendar></div>
+<div class="col-md-1" style="padding:5px 18px 0 0;text-align:right;">Groupe:</div>
+<div class="col-md-3" style="padding:0 0 0 0;">
+<select [(ngModel)]="selectedGroupe" (change)="getPresence()" class="form-control input-shadow">
+<ng-template ngFor let-groupe [ngForOf]="listeGroupes"
+								let-i="index">
+<option>{{groupe}}</option>
+</ng-template>
+</select></div>
+</div>
+<div class="row">
+<div class="panel panel-default panel-shadow">
+  <div class="panel-heading">Salles totalisant le plus grand nombre d'heures</div>
+  <div class="panel-body graphBackground" [ngStyle]="{'height':heightValue.toString()+'px', 'padding': '0 0 0 0'}">      
+ <!--   <ngx-charts-tree-map
+        class="chart-container"
+        [view]="view"
+        (legendLabelClick)="onLegendLabelClick($event)"
+        [scheme]="colorScheme"
+        [results]="single"
+        (select)="select($event)">
+      </ngx-charts-tree-map> -->
+            <ngx-charts-bar-horizontal
+        class="chart-container"
+        [view]="view"
+        legendTitle="Légende"
+        [scheme]="colorScheme"
+        [schemeType]="schemeType"
+        [results]="single"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [showGridLines]="showGridLines"
+        [barPadding]="barPadding"
+        [roundDomains]="roundDomains"
+        (legendLabelClick)="onLegendLabelClick($event)"
+        (select)="select($event)">
+      </ngx-charts-bar-horizontal>
+      </div> 
+</div>
+
+
+</div>
+
+		<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" 
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
+		<p-header></p-header>
+		<div style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>

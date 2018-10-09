@@ -1,0 +1,110 @@
+<div @fadeIn>
+	<div class="row" style="margin-right: 10px; margin-left: 10px;">
+		<div class="panel panel-default panel-shadow">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Groupes de salles</h3>
+			</div>
+			<div class="panel-body">
+			<div class="col-md-6">
+				<div class="panel panel-default fade-animation panel-shadow" style="border-radius: 40px;">
+					<div class="panel-heading" style="border-top-left-radius: 40px; border-top-right-radius: 40px;">
+						<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;Groupes de salles disponibles</h3>
+					</div>
+					<div class="panel-body">
+							<div class="col-md-4">
+								<p-listbox [options]="groupes" [(ngModel)]="groupeSelected"
+									(onChange)="groupeSelect()" [disabled]="groupesDisabled"
+									[style]="{'max-height':'400px','height': '400px'}">
+								</p-listbox>
+							</div>
+							<div class="col-md-4">
+								<button type="button" [ngClass]="styleBoutonCreation" (mouseenter) ="styleBoutonCreation='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonCreation='btn btn-primary input-shadow'"
+								style="width: 180px;"
+									(click)="modal.open()"><div class="ui-grid-col-1"><span class="glyphicon glyphicon-plus-sign"></span></div>
+									<div class="ui-grid-col-11"> Créer un groupe</div></button>
+								<br>
+								<button type="button" [ngClass]="styleBoutonSuppression" (mouseenter) ="styleBoutonSuppression='btn btn-danger input-shadow focusBig'"  (mouseleave) ="styleBoutonSuppression='btn btn-danger input-shadow'"
+									(click)="deleteGroupe()" style="margin-top: 10px; width: 180px;" [disabled]="groupeActif.lib_groupe.length <= 0"><div class="ui-grid-col-1"><span class="glyphicon glyphicon-remove-sign"></span></div>
+									<div class="ui-grid-col-11"> Supprimer ce groupe</div></button>
+								<br> <br> Groupe actif <input type="text"
+									class="form-control input-shadow" id="usr" style="margin-top: 10px;"
+									[(ngModel)]="groupeActif.lib_groupe" disabled />
+							</div>
+
+					</div>
+				</div>
+			</div>
+			
+			<p-confirmDialog header="Confirmation" icon="fa fa-question-circle"
+				acceptLabel="Oui" rejectLabel="Non" width="425"> </p-confirmDialog>
+			<div class="col-md-3">
+				<div class="panel panel-default fade-animation panel-shadow" style="border-radius: 40px;">
+					<div class="panel-heading" style="border-top-left-radius: 40px; border-top-right-radius: 40px;">
+						<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-log-in"></span> Salles du groupe</h3>
+					</div>
+					<div class="panel-body" [@fadeInSallesGroupe]="visibility">
+						<p-listbox [options]="sallesDuGroupe" [(ngModel)]="salleSelect"
+							(onChange)="removeSalle()"
+							[style]="{'max-height':'400px','height': '400px' , 'width':'100%'}"> </p-listbox>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<div class="panel panel-default fade-animation panel-shadow" style="border-radius: 40px;">
+					<div class="panel-heading" style="border-top-left-radius: 40px; border-top-right-radius: 40px;">
+						<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-log-out"></span> Salles disponibles</h3>
+					</div>
+					<div class="panel-body" [@fadeInSallesGroupe]="visibility">
+						<p-listbox [options]="sallesDispos" [(ngModel)]="salleDispoSelect"
+							(onChange)="addSalle()"
+							[style]="{'max-height':'400px','height': '400px', 'width':'100%'}"> </p-listbox>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div></div>
+</div>
+<modal [animation]="animation" [keyboard]="keyboard"
+	[backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+	(onOpen)="opened()" [cssClass]="cssClass" #modal> <modal-header
+	[show-close]="true">
+<h4 class="modal-title">Créer un nouveau groupe de salles</h4>
+</modal-header>
+<form (ngSubmit)="onSubmit()" #groupeForm="ngForm">
+	<modal-body>
+
+	<div class="form-group">
+		<label for="lib_groupe">Libellé</label> <input type="text"
+			class="form-control input-shadow" id="lib_groupe" required
+			[(ngModel)]="groupeActif.lib_groupe" name="lib_groupe"
+			#lib_groupe="ngModel">
+		<div [hidden]="lib_groupe.valid || lib_groupe.pristine"
+			class="alert alert-danger">Le libellé court est obligatoire</div>
+			
+	</div>
+	<div class="form-group">
+		<label for="lib_groupe_long">Libellé long</label> <input type="text"
+			class="form-control input-shadow" id="lib_groupe_long"
+			[(ngModel)]="groupeActif.lib_groupe_long" name="lib_groupe_long"
+			#lib_groupe_long="ngModel">
+	</div>
+	<div class="form-group">
+		<label for="code">Choisir une salle à affecter au groupe</label> <select
+			class="form-control input-shadow" id="code" required
+			[(ngModel)]="groupeActif.code" name="code" #code="ngModel">
+			<option *ngFor="let salle of listeSalles" [value]="salle.code">{{salle.code}}</option>
+		</select>
+		<div [hidden]="code.valid || code.pristine" class="alert alert-danger">
+			Il faut au moins choisir une salle</div>
+	</div>
+
+
+	</modal-body>
+	<modal-footer>
+	<button type="button" [ngClass]="styleBoutonAnnuler" (mouseenter) ="styleBoutonAnnuler='btn btn-default input-shadow focusBig'"  (mouseleave) ="styleBoutonAnnuler='btn btn-default input-shadow'" data-dismiss="modal"
+		(click)="modal.dismiss()">Annuler</button>
+	<button type="button" [ngClass]="styleBoutonSauvegarder" (mouseenter) ="styleBoutonSauvegarder='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonSauvegarder='btn btn-primary input-shadow'" autofocus
+		[disabled]="!groupeForm.form.valid" (click)="saveGroupe()">Sauvegarder</button>
+	</modal-footer>
+</form>
+</modal>

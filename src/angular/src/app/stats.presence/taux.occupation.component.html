@@ -1,0 +1,211 @@
+<div class="row" >
+<div class="col-md-3" style="padding:0 0 0 0;">
+<div class="panel-group" id="accordion">
+  <ng-template ngFor let-groupe [ngForOf]="listeGroupes"
+								let-i="index">
+  <div class="panel panel-default" style="margin:0 0 0 0; border-radius: 0px; border: 0px;box-shadow: 0 0px 0px rgba(0,0,0,.05);">
+    <div class="panel-heading" style="padding:0 0 0 0;">
+      <h4 class="panel-title" style="background-color: #fff;">
+        <a style="width:80%; border-radius: 20px; color: #fff" class=" list-group-item list-group-item-blue shadow-headpanel panel-shadow" data-toggle="collapse" data-parent="#accordion" href="#collapse{{i}}" (click)="groupeSelect(groupe.num_groupe)">
+        {{groupe.lib_groupe}}</a>
+      </h4>
+    </div>
+    <div id="collapse{{i}}" class="panel-collapse collapse">
+      <div class="panel-body" style="padding:0 0 0 0; margin-left:30px; border-top: 0px;">
+      <ul class="list-group">
+        <ng-template ngFor let-salle [ngForOf]="listeSallesAffectees" 
+								let-j="index">
+  <a (click)="salleSelect(salle.code)" *ngIf="groupe.num_groupe == salle.num_groupe"  class="list-group-item list-group-item-info-blue shadow-headpanel panel-shadow" style="color: #024B9E; cursor: pointer; border-radius: 20px;"><span class="glyphicon glyphicon-home"></span> {{salle.code}}</a>
+  </ng-template>
+</ul>
+      </div>
+    </div>
+  </div>
+  </ng-template>
+</div>
+</div>
+<div class="col-md-9">
+<div class="row"  *ngIf="!groupIsSelected && !salleIsSelected && !modalOpened">
+<div class="container center" style="margin-left:25px;">
+  <div class="jumbotron panel-shadow" style="width: 650px">
+    <h3>Consultation des données sur le taux d'occupation des locaux</h3><br> 
+    <p>Cliquez sur un groupe pour afficher le taux d'occupation global de l'ensemble des salles
+    qui y sont rattachées. Seules les remontées d'informations saisies et validées sont prises en compte.
+    </p> 
+  </div>
+</div>
+</div>
+<div class="row"  *ngIf="(groupIsSelected || salleIsSelected) && !modalOpened">
+				<div class="panel panel-default panel-shadow" style="margin-bottom: 15px;" @fadeIn >
+  				<div class="panel-heading" style="padding: 5px 5px 5px 5px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 0;"><span class="glyphicon glyphicon-calendar"></span> Sélection de la date</h3></div>
+  				<div class="panel-body" style="height: 45px;padding: 8px 8px 8px 8px;">
+  				<div class="col-md-3" style="font-size:16px; padding-top:4px">Date de référence</div>
+  				<div class="col-md-9">
+<p-calendar [(ngModel)]="dateSelect" [locale]="globals.frLabel" [disabled]="dateDisabled" popover="Les données commenceront un mois avant la date de référence, soit deux mois sélectionnables maximum" [popoverOnHover]="true"
+					[popoverDismissTimeout]="1000" popoverPlacement="top"	(onSelect)="selectDate()"	dateFormat="dd/mm/yy"></p-calendar></div></div></div>
+<div class="panel panel-default panel-shadow" @fadeIn>
+  <div class="panel-body" style="padding:5px 5px 5px 5px;">
+  <div class="row" style="margin:0 0 0 0;">
+  <div class="col-md-3" style="padding:0 0 0 0;"><div class="alert alert-info text-center panel-shadow" style="height: 80px; ">
+  <h4><div class="col-md-2" style="padding:0 0 0 0;"><span class="glyphicon glyphicon-calendar">
+  </span></div><div [ngClass]="dateDebutClass" style="padding:0 0 0 0;"> {{dateDebutString}}</div></h4></div></div>
+  <div class="col-md-6"><div class="row">
+  <p-slider [(ngModel)]="rangeValues" [style]="{'width':'90%','margin-left':'15px'}" [range]="true" [max]="this.nbSelectionDate" (mouseup)="changeDates()"></p-slider>
+  </div>
+  <div class="row" *ngIf="nbSeances > 0"><div class="text-center">Analyse générée sur la base de <a style="cursor: pointer;" (click)="voirSeances()"><br><span class="glyphicon glyphicon-th-list"></span> {{nbSeances}} séances</a></div></div></div>
+  <div class="col-md-3" style="padding:0 0 0 0;"><div class="alert alert-info text-center panel-shadow" style="height: 80px; "><h4><div class="col-md-2" style="padding:0 0 0 0;"><span class="glyphicon glyphicon-calendar">
+  </span></div><div [ngClass]="dateFinClass" style="padding:0 0 0 0;"> {{dateFinString}}</div></h4></div></div>
+  </div>
+    <div style="display: block; "> <!-- pointer-events: none; -->
+  <canvas baseChart width="400" height="200"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+                
+
+ </div>
+      </div></div>
+ <div *ngIf="groupIsSelected">
+    <div class="panel panel-default panel-shadow" @fadeIn>
+  <div class="panel-heading">Taux d'occupation pour les salles du groupe</div>
+  <div class="panel-body">
+  <p-dataGrid [value]="tauxSallesAffectees" [paginator]="false" [rows]="20">
+    <p-header>
+        Liste des salles
+    </p-header>
+    <ng-template let-salle pTemplate="item">
+        <div style="padding:3px" class="ui-g-10 ui-md-2">
+            <p-panel styleClass="bounce-animation">
+            <p-header>
+            <div class="shadow-headpanel" style="text-align: center; height:31px;">
+            <a (click)="voirSeances(salle.code)" style="color:#31708f; cursor: pointer;"><span class="glyphicon glyphicon-home"></span> {{salle.code}}</a>
+            </div>
+            </p-header>
+               <div class="progress" style="margin-top: 5px;margin-bottom:5px; height:25px;">
+                      <div data-percentage="0%" [ngStyle]="{'width': salle.taux+'%'}" [ngClass]="getProgressClass(salle.taux)" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="shadow-headpanel" style="text-align: center;">{{salle.tauxArrondi}}%</div>
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataGrid>
+  </div>
+</div></div>
+</div>
+</div>
+</div>
+
+
+<modal [animation]="animation" [keyboard]="keyboard"
+			[backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+			(onOpen)="opened()" cssClass="modal-xl" #modal2>
+			<modal-header [show-close]="true">
+			<h4 class="modal-title">Liste des séances sélectionnées</h4>
+			
+			</modal-header>
+			
+			<modal-body>
+<div class="row" style="margin: 0 0 0 0;">
+<div class="col-md-3">
+<div class="panel panel-default panel-shadow" style="margin: 0 0 10px 0;">
+  <div class="panel-heading">Tout sélectionner</div>
+  <div class="panel-body" style="padding-left:40px; padding-right:40px;"><ui-switch [(ngModel)]="toutesLesSeances" color="#A9D0F5" (change)="selectionnerTout($event)"></ui-switch></div>
+</div>
+    
+</div>
+<div class="col-md-3">
+<div class="panel panel-default panel-shadow" style="margin: 0 0 0 0;">
+  <div class="panel-heading">Exporter vers tableur</div>
+  <div class="panel-body"><button (click)="telechargerSelection()" type="button" [ngClass]="styleBoutonTelecharger" (mouseenter) ="styleBoutonTelecharger='btn btn-primary input-shadow center-block focusBig'"  (mouseleave) ="styleBoutonTelecharger='btn btn-primary input-shadow  center-block'" ><span class="glyphicon glyphicon-file"></span>Télécharger</button></div>
+</div>
+    
+</div>
+<div class="col-md-6">
+  					<div class="panel panel-default panel-shadow">
+  <div class="panel-body">Cliquez sur les lignes avec la touche contrôle pour effectuer une sélection, et copier 
+  les lignes sélectionnées avec un clic droit. Les totaux sont automatiquement ajustés en fonction de la sélection.</div>
+</div>
+  				  
+  				  </div>
+</div>
+<div class="content-section implementation">
+    <div class="panel-shadow">
+    <p-dataTable (click)="selectionChange()" [value]="tableSeancesDisplay" selectionMode="multiple" [(selection)]="selectionSeances" (contextmenu)="showDialogCopie()"
+    scrollable="true" scrollHeight="400px" oncontextmenu="return false;">
+        <p-headerColumnGroup >
+            <p-row>
+                <p-column header="Identifiant" rowspan="3" ></p-column>
+                <p-column header="Calendrier" colspan="4"></p-column>
+                <p-column colspan="1"></p-column>
+                <p-column header="Lieu" colspan="4"></p-column>
+            </p-row>
+            <p-row>
+                <p-column header="Date de la séance" colspan="2"></p-column>
+                <p-column header="Horaires" colspan="2"></p-column>
+                <p-column header="Enseignant" colspan="1"></p-column>
+                <p-column header="Salle" colspan="4"></p-column>
+            </p-row>
+            <p-row>
+                <p-column header="Jour"></p-column>
+                <p-column header="Date"></p-column>
+                <p-column header="Heure de début"></p-column>
+                <p-column header="Heure de fin"></p-column>
+                <p-column header="Nom de l'enseignant"></p-column>
+                <p-column header="Code de la salle"></p-column>
+                <p-column header="Nombre de présents"></p-column>
+                <p-column header="Capacité"></p-column>
+                <p-column header="Taux d'occupation">        
+                </p-column>
+            </p-row>
+        </p-headerColumnGroup>
+        
+        <p-column field="id"></p-column>
+        <p-column field="jour"></p-column>
+        <p-column field="dateSeance"></p-column>
+        <p-column field="heureDebut"></p-column>
+        <p-column field="heureFin"></p-column>
+        <p-column field="nomEnseignant"></p-column>
+        <p-column field="codeSalle"></p-column>
+        <p-column field="nbPresents"></p-column>
+        <p-column field="capacite"></p-column>
+        <p-column field="taux"><ng-template let-row="rowData" pTemplate="body">
+            {{row.tauxArrondi}} %
+        </ng-template></p-column>
+    </p-dataTable>
+    <div style="padding-right: 18px;">
+	    <p-dataTable emptyMessage=""><p-footerColumnGroup>
+        <p-row>
+            <p-column footer="Totaux:" colspan="7"></p-column>
+            <p-column footer="{{sommePresents}}"></p-column>
+            <p-column colspan="1"></p-column>
+            <p-column footer="{{tauxMoyen}} %"></p-column>
+        </p-row>
+    </p-footerColumnGroup>
+</p-dataTable>
+</div>
+    </div>
+    <p-contextMenu #cm [model]="items"></p-contextMenu>
+  <p-dialog [(visible)]="dialogSeanceIsVisible" [(modal)]="modal" [closable]="selectSeancesClosable"  [(showHeader)]="selectSeancesHeader"
+   [(resizable)]="resizable" responsive="true"> 
+   <textarea [(ngModel)]="copieSeances" style="resize:none;overflow:hidden; overflow-y: hidden;
+overflow-x: hidden; width: 10px; height:10px; position:absolute; background: rgba(0, 0, 0, 0); border: none; outline: none; color: rgba(0, 0, 0, 0); "
+          #inputTarget></textarea>
+   <button style = "border: 0px; background-color: white;" type="button" [ngxClipboard]="inputTarget" (click)="copierSeances()"><span class="glyphicon glyphicon-copy"></span> Copier</button>
+    </p-dialog>
+			</div>
+			</modal-body>
+			<modal-footer>
+			<button type="button" [ngClass]="styleBoutonAnnuler" (mouseenter) ="styleBoutonAnnuler='btn btn-default input-shadow focusBig'" (mouseleave) ="styleBoutonAnnuler='btn btn-default input-shadow'"  data-dismiss="modal2"
+				(click)="modal2.dismiss()">Annuler</button>
+			</modal-footer>
+   </modal>
+
+		<p-dialog header="Chargement des données" [(visible)]="loading" [(modal)]="modal" width="200" height="200" 
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
+		<p-header></p-header>
+		<div  class="fade-animation" style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>
+

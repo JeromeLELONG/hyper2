@@ -1,0 +1,44 @@
+<?= $this->doctype() ?>
+
+<html lang="en">
+    <head>
+    <base href="/">
+        <meta charset="utf-8">
+        <?= $this->headTitle('Gestion des présences')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?= $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+        <!-- Le styles -->
+        <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.png'])
+            ->prependStylesheet($this->basePath('css/styles.bundle.css'))
+
+        ?>
+
+  <style type="text/css" data-styled-components="" data-styled-components-is-local="false">/* sc-component-id: sc-global-3749717839 */
+@font-face{font-family:'maple';src:url("/fonts/maple-light-webfont.eot");
+src:url("/fonts/maple-light-webfont.eot?#iefix") format("embedded-opentype"),url("/fonts/maple-light-webfont.woff2") 
+format("woff2"),url("/fonts/maple-light-webfont.woff") format("woff"),url("/fonts/maple-light-webfont.ttf") 
+format("truetype"),url("/fonts/maple-light-webfont.svg#mapleregular") format("svg");font-weight:200;font-style:normal;}
+@font-face{font-family:'maple';src:url("/fonts/maple-regular-webfont.eot");
+src:url("/fonts/maple-regular-webfont.eot?#iefix") format("embedded-opentype"),url("/fonts/maple-regular-webfont.woff2") 
+format("woff2"),url("/fonts/maple-regular-webfont.woff") format("woff"),url("/fonts/maple-regular-webfont.ttf") 
+format("truetype"),url("/fonts/maple-regular-webfont.svg#maple_regularregular") format("svg");
+font-weight:400;font-style:normal;}
+@font-face{font-family:'maple';src:url("/fonts/maple-medium-webfont.eot");
+src:url("/fonts/maple-medium-webfont.eot?#iefix") format("embedded-opentype"),url("/fonts/maple-medium-webfont.woff2") 
+format("woff2"),url("/fonts/maple-medium-webfont.woff") format("woff"),url("/fonts/maple-medium-webfont.ttf") format("truetype"),
+url("/fonts/maple-medium-webfont.svg#maplemedium") format("svg");font-weight:700;font-style:normal;}
+@font-face{font-family:'maple';
+src:url("/fonts/maple-bold-webfont.eot");src:url("/fonts/maple-bold-webfont.eot?#iefix") format("embedded-opentype"),
+url("/fonts/maple-bold-webfont.woff2") format("woff2"),url("/fonts/maple-bold-webfont.woff") format("woff"),
+url("/fonts/maple-bold-webfont.ttf") format("truetype"),url("/fonts/maple-bold-webfont.svg#mapleregular") 
+format("svg");font-weight:900;font-style:normal;}
+</style>
+    </head>
+    <body>
+            <?= $this->content ?>
+        <?= $this->inlineScript() ?>
+    </body>
+</html>

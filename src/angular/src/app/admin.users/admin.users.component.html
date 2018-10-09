@@ -1,0 +1,78 @@
+<div @fadeIn>
+	<div class="row" style="margin-right: 10px; margin-left: 10px;">
+		<div class="panel panel-default panel-shadow">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Gérer les utilisateurs</h3>
+			</div>
+			<div class="panel-body">
+			<div class="panel-group">
+  							<div class="panel-body">
+								<div class="row">
+				<div class="panel-body">
+				<div class="panel panel-default panel-shadow">
+   				 <div class="panel-heading">Rechercher et ajouter un utilisateur</div>
+   				 <div class="panel-body"></div>
+ 				  <div class="row">
+  				  <div class="col-md-6" style="text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);">
+					<label for="nom_enseignant">Nom de l'utilisateur</label><input
+											ng2-auto-complete id="model4" [(ngModel)]="enseignant" 
+											class="form-control input-shadow" style="height: 60px; width: 100%;"
+											placeholder="(Entrer au minimum 2 caractères)"
+											[source]="ListeEnseignants" id="nom_enseignant"
+											name="nom_enseignant" (change)="setNomUtilisateur()"
+											no-match-found-text="Aucune entrée trouvée"
+											display-property-name="nom_enseignant" path-to-data="results"
+											loading-text="Recherche en cours..." max-num-list="5"
+											min-chars="2" />
+  				  </div>
+  				  <div class="col-md-4">
+					<b>Nom:</b>&nbsp;{{adduser.nom}}<br>
+					<b>Prénom:</b>&nbsp;{{adduser.prenom}}<br>
+					<b>Identifiant:</b>&nbsp;{{adduser.username}}<br>
+  				  </div>
+  				  <div class="col-md-2">
+  				  <button [disabled]="!adduser.username.length" type="button" [ngClass]="styleBoutonAjouter" (mouseenter) ="styleBoutonAjouter='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonAjouter='btn btn-primary input-shadow'" (click)="ajouterUtilisateur()">Ajouter</button>
+  				  </div>
+  				  </div>
+ 				 </div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="panel-body">
+				<div class="panel panel-default panel-shadow">
+   				 <div class="panel-heading">Liste des utilisateurs autorisés</div>
+   				 <div class="panel-body"></div>
+ 				  <div class="row">
+ 				  <div class="col-md-1"></div>
+ 				  <div class="col-md-10">
+ 				   <table class="table responsive-table table-striped" style="text-shadow: 1px 1px 4px rgba(150, 150, 150, 1);">
+        <tr>
+           <th></th>
+           <th>Identifiant</th>
+           <th>Nom</th>
+           <th>Prénom</th>
+           <th>Service</th>
+           <th>Role</th>
+        </tr>
+        <ng-template ngFor let-utilisateur [ngForOf]="listeutilisateurs"
+								let-i="index"><tr>
+           <td>
+            <button *ngIf="utilisateur.role != 'admin'" [ngClass]="stylesDelete[i]" (mouseenter) ="stylesDelete[i]='btn btn-danger input-shadow focusBig'"  (mouseleave) ="stylesDelete[i]='btn btn-danger input-shadow'"  style="padding:1px 2px 1px 1px; font-size: 12px;" type="button" (click)="supprimerUtilisateur(utilisateur.username)"><i class="glyphicon glyphicon-trash"></i></button>
+            </td>
+        	<td>{{utilisateur.username}}</td>
+            <td>{{utilisateur.nom}}</td>
+            <td>{{utilisateur.prenom}}</td>
+            <td>{{utilisateur.service}}</td>
+            <td>{{utilisateur.role}}</td>
+        </tr>
+        </ng-template>
+    </table></div>
+    <div class="col-md-1"></div>
+  				  </div>
+				</div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,63 @@
+
+# protractor:
+#     #image: node
+#     build: ./e2e
+#     container_name: protractor_hyper
+#     volumes:
+#         - "/root/hyper2/src/angular/:/usr/src"
+#     ports:
+#         - 4444:4444
+#     #    - 4200:4200
+#     working_dir: "/usr/src/"
+#     #command: "/etc/start.sh"
+#     command: "webdriver-manager start"
+#     #command: "ping google.com"
+#     links:
+#     - apache
+node:
+    #image: node
+    build: ./node
+    container_name: node_hyper
+    volumes:
+        - "./src/angular/:/usr/src"
+    #ports:
+    #    - 4444:4444
+    #    - 4200:4200
+    working_dir: "/usr/src/"
+    #command: "/etc/start.sh"
+    command: "npm start"
+apache:
+    #image: php:apache
+    container_name: hyper
+    build: ./src
+    volumes:
+    - "./src/:/var/www/html/applications/hyper"
+    - "./src/apache2/sites-available/:/etc/apache2/sites-available/"
+    - "./src/e2e/:/usr/src"
+    links:
+    - mysql
+    - ldap
+    - node
+    privileged: true
+    working_dir: "/usr/src/"
+mysql:
+    #image: mysql:latest
+    build: ./mysql
+    container_name: mysql_hyper
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: "root"
+        MYSQL_DATABASE: presence
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+        MYSQL_HOST: localhost
+        #MYSQL_PORT: 3306
+    privileged: true
+    volumes:
+        - dbdatatest:/var/lib/mysql
+        - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+ldap:
+    container_name: ldap_hyper
+    build: ./ldap
+    volumes:
+    - "./ldap/:/ldap/"

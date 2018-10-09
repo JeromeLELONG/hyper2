@@ -1,0 +1,54 @@
+<div (window:resize)="onResize($event)" >
+<div>
+<nav class="navbar bandeau-navigation navbar-fixed-top" role="navigation" style="margin-bottom:0; height: 60px">
+            <div class="container">
+                <div class="navbar-header"><img style="position:absolute;top:0px;left:-250px;" class="bounce-animation" src="img/cnam_header1.png"/>
+<img style="position: absolute; top: 0px; left:380px;" src="img/cnam_header2.png"/></div>
+<div class="navbar-header" style="margin-left: 200px;">
+<div style="background-color: #C1022D;  position: absolute; height:60px; width: 3000px; top: 0px; left:450px;"></div>
+<p class="navbar-brand" style="position:absolute;top:0px;left:450px;color: white;font-size: 38px;  text-shadow: 9px 11px 12px #000000;">Gestion du suivi des présences</p>
+                </div>
+                <div class="collapse navbar-collapse" style="margin-left:940px; text-align: left; background-color: #C1022D; color: white; padding: 20px 0px 10px 0px;" @SlideFromRight>
+                     <p style=" font-size: 14px; text-shadow: 1px 2px 3px rgba(0,0,0, 0.5);" *ngIf="globals.donneesConnexion">{{globals.donneesConnexion.cn}} connecté</p>
+                </div>
+            </div>
+            <nav class="navbar navbar-default element-animation" style="min-height: 35px; margin-bottom: 0px; margin-top:60px; " role="navigation">
+                    <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                    <div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav navbar-toggler">
+    <li><a routerLink="/" routerLinkActive="active" [ngClass]="isActive('/accueil')?'barrenav-shadow-active':styleAccueilButton" (mouseenter) ="styleAccueilButton='barrenav-shadow focusBig'"  (mouseleave) ="styleAccueilButton='barrenav-shadow'"  style="padding: 5px 10px 5px 10px;" popover="Accéder aux favoris et aux derniers lots de présences édités" popoverOnHover="true" popoverDismissTimeout="1000" popoverPlacement="right">Accueil</a></li>
+      <li><a id="editionLink" routerLink="/edition" routerLinkActive="active" [ngClass]="isActive('/edition')?'barrenav-shadow-active':styleEditionButton" (mouseenter) ="styleEditionButton='barrenav-shadow focusBig'"  (mouseleave) ="styleEditionButton='barrenav-shadow'" style="padding: 5px 20px 5px 10px;" popover="Editer un nouveau lot de fiches" popoverOnHover="true" popoverDismissTimeout="1000">Edition des fiches</a></li>
+      <li><a routerLink="/viewgraphics" routerLinkActive="active" [ngClass]="isActive('/viewgraphics')?'barrenav-shadow-active':styleGraphicButton" (mouseenter) ="styleGraphicButton='barrenav-shadow focusBig'"  (mouseleave) ="styleGraphicButton='barrenav-shadow'" style="padding: 5px 20px 5px 10px;" popover="Suivi des présences par salles sur une période" popoverOnHover="true" popoverDismissTimeout="1000">Vue graphiques</a></li>
+      <li><a routerLink="/groupes-salles" routerLinkActive="active" [ngClass]="isActive('/groupes-salles')?'barrenav-shadow-active':styleGroupesButton" (mouseenter) ="styleGroupesButton='barrenav-shadow focusBig'"  (mouseleave) ="styleGroupesButton='barrenav-shadow'" style="padding: 5px 20px 5px 10px;" popover="Constituer les groupes de salles utilisés par l'application" popoverOnHover="true" popoverDismissTimeout="1000">Groupes de salles</a></li>
+      <li><a routerLink="/viewplanning" routerLinkActive="active" [ngClass]="isActive('/viewplanning')?'barrenav-shadow-active':stylePlanningButton" (mouseenter) ="stylePlanningButton='barrenav-shadow focusBig'"  (mouseleave) ="stylePlanningButton='barrenav-shadow'" style="padding: 5px 20px 5px 5px;" popover="Afficher les cours et les présences au format planning" popoverOnHover="true" popoverDismissTimeout="1000">Vue Planning</a></li>
+      <li><a routerLink="/hyper-planning" routerLinkActive="active" [ngClass]="isActive('/hyper-planning')?'barrenav-shadow-active':styleHyperButton" (mouseenter) ="styleHyperButton='barrenav-shadow focusBig'"  (mouseleave) ="styleHyperButton='barrenav-shadow'" style="padding: 5px 30px 5px 15px;" popover="Synchroniser les données et référentiels depuis HyperPlanning" popoverOnHover="true" popoverDismissTimeout="1000">Vérifier dans HyperPlanning</a></li>
+      <li><a routerLink="/saisie-fiches" routerLinkActive="active" [ngClass]="isActive('/saisie-fiches')?'barrenav-shadow-active':styleSaisieButton" (mouseenter) ="styleSaisieButton='barrenav-shadow focusBig'"  (mouseleave) ="styleSaisieButton='barrenav-shadow'" style="padding: 5px 20px 5px 5px;" popover="Effectuer la saisie d'un lot de fiches de présence édité" popoverOnHover="true" popoverDismissTimeout="1000">Saisie des fiches</a></li>
+    <li><a routerLink="/stats-presence" routerLinkActive="active" [ngClass]="isActive('/stats-presence')?'barrenav-shadow-active':styleStatsButton" (mouseenter) ="styleStatsButton='barrenav-shadow focusBig'"  (mouseleave) ="styleStatsButton='barrenav-shadow'" style="padding: 5px 25px 5px 15px;" popover="Afficher les données de présence consolidées" popoverOnHover="true" popoverDismissTimeout="1000">Statistiques Présences</a></li>
+        <li><a id="exportLink" routerLink="/export" routerLinkActive="active" [ngClass]="isActive('/export')?'barrenav-shadow-active':styleExportButton" (mouseenter) ="styleExportButton='barrenav-shadow focusBig'"  (mouseleave) ="styleExportButton='barrenav-shadow'" style="padding: 5px 20px 5px 5px;" popover="Exporter l'ensemble de la base pour l'exploiter sur un outil externe" popoverOnHover="true" popoverDismissTimeout="1000">Exporter</a></li>
+        <li><a routerLink="/suivi" routerLinkActive="active" [ngClass]="isActive('/suivi')?'barrenav-shadow-active':styleSuiviButton" (mouseenter) ="styleSuiviButton='barrenav-shadow focusBig'"  (mouseleave) ="styleSuiviButton='barrenav-shadow'" style="padding: 5px 20px 5px 5px;" popover="Suivre les saisies par groupe de salle" popoverOnHover="true" popoverDismissTimeout="1000">Suivi des saisies</a></li>
+        <li *ngIf="globals.donneesConnexion && globals.donneesConnexion.role == 'admin'"><a routerLink="/adminusers" routerLinkActive="active" [ngClass]="isActive('/adminusers')?'barrenav-shadow-active':styleUsersButton" (mouseenter) ="styleUsersButton='barrenav-shadow focusBig'"  (mouseleave) ="styleUsersButton='barrenav-shadow'" style="padding: 5px 20px 5px 5px;" popover="Ajouter des utilisateurs de l'application" popoverOnHover="true" popoverDismissTimeout="1000">Gérer les utilisateurs</a></li>
+    <li><a href="logout" [ngClass]="styleLogoutButton" (mouseenter) ="styleLogoutButton='barrenav-shadow focusBig'"  (mouseleave) ="styleLogoutButton='barrenav-shadow'" style="padding: 5px 5px 5px 5px;"><span class="glyphicon glyphicon-off" style="color: red;"></span> Déconnexion</a></li>
+    </ul></div></div>
+</nav>
+</nav>
+        <div [ngStyle]="{'marginTop':(width>770)?'100px':'400px'}">
+
+
+</div>
+<router-outlet></router-outlet>
+</div>
+<footer class="footer"><div class="container">
+                <p class="text-muted" style="margin-right: 10px; margin-left: 10px;" @SlideFromRight><i>{{labelInit}}</i>
+<span style="font-family: 'maple';color: rgb(193, 2, 45);font-size:30px;font-weight: normal; padding:0 0 0 0px; height: 10px; width: 170px; text-shadow: -1px 2px 2px #000000;"
+>{{labelLogo1Init}}<span style="font-weight: bold;">{{labelLogo2Init}}</span>
+ </span> <i>{{label2Init}}</i></p>
+                </div>
+            </footer>
+
+            
+</div>

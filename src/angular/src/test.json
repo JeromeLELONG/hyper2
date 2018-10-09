@@ -1,0 +1,167 @@
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Daman et Diu",
+               "short_name" : "DD",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Inde",
+               "short_name" : "IN",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Daman et Diu, Inde",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 20.743124,
+                  "lng" : 72.9067969
+               },
+               "southwest" : {
+                  "lat" : 20.3669569,
+                  "lng" : 70.87075999999999
+               }
+            },
+            "location" : {
+               "lat" : 20.428283,
+               "lng" : 72.8397317
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 20.4673968,
+                  "lng" : 72.9067969
+               },
+               "southwest" : {
+                  "lat" : 20.3672191,
+                  "lng" : 72.8208053
+               }
+            }
+         },
+         "place_id" : "ChIJoQA7ipDa4DsRQnK0uUpAqAA",
+         "types" : [ "administrative_area_level_1", "political" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "855",
+               "short_name" : "855",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "North Park Road",
+               "short_name" : "N Park Rd",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Wyomissing",
+               "short_name" : "Wyomissing",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Berks County",
+               "short_name" : "Berks County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Pennsylvania",
+               "short_name" : "PA",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "États-Unis",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "19610",
+               "short_name" : "19610",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "855 N Park Rd, Wyomissing, PA 19610, États-Unis",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 40.3492246,
+                  "lng" : -75.9571481
+               },
+               "southwest" : {
+                  "lat" : 40.3489542,
+                  "lng" : -75.95755579999999
+               }
+            },
+            "location" : {
+               "lat" : 40.3490894,
+               "lng" : -75.95735189999999
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.3504383802915,
+                  "lng" : -75.95600296970849
+               },
+               "southwest" : {
+                  "lat" : 40.3477404197085,
+                  "lng" : -75.9587009302915
+               }
+            }
+         },
+         "place_id" : "ChIJe9_8JNB2xokR9hvfy3khLB8",
+         "types" : [ "establishment", "point_of_interest", "premise" ]
+      },
+      {
+         "address_components" : [
+            {
+               "long_name" : "Dresde",
+               "short_name" : "DD",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Saxe",
+               "short_name" : "SN",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "Allemagne",
+               "short_name" : "DE",
+               "types" : [ "country", "political" ]
+            }
+         ],
+         "formatted_address" : "Dresde, Allemagne",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 51.59723959999999,
+                  "lng" : 15.0418962
+               },
+               "southwest" : {
+                  "lat" : 50.7167049,
+                  "lng" : 13.1821433
+               }
+            },
+            "location" : {
+               "lat" : 51.31857,
+               "lng" : 14.2674541
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 51.59723959999999,
+                  "lng" : 15.0418962
+               },
+               "southwest" : {
+                  "lat" : 50.7167049,
+                  "lng" : 13.1821433
+               }
+            }
+         },
+         "place_id" : "ChIJR-TZdy-zCUcRNZQIwz2TdtQ",
+         "types" : [ "administrative_area_level_2", "political" ]
+      }
+   ],
+   "status" : "OK"
+}

@@ -1,0 +1,24 @@
+<div @fadeIn>
+	<div class="row" style="margin-right: 10px; margin-left: 10px;">
+		<div class="panel panel-default panel-shadow">
+			<div class="panel-heading ">
+				<h3 class="panel-title shadow-headpanel">Statistiques sur les données de présence</h3>
+			</div>
+			<div class="panel-body">
+			<p-tabMenu [model]="items" [style]="{'border':'0px'}"></p-tabMenu>
+			<div class="panel panel-default panel-shadow" *ngIf="choixItem == 'tauxocc'">
+  			<div class="panel-body"><taux-occ></taux-occ></div>
+			</div>
+			<div class="panel panel-default panel-shadow" *ngIf="choixItem == 'frequencereserv'">
+  			<div class="panel-body"><frequence-reserv></frequence-reserv></div>
+			</div>
+			<div class="panel panel-default panel-shadow" *ngIf="choixItem == 'repartevent'">
+  			<div class="panel-body"><repart-type></repart-type></div>
+			</div>
+			<div class="panel panel-default panel-shadow" *ngIf="choixItem == 'suividonnees'">
+  			<div class="panel-body"><suivi-donnees></suivi-donnees></div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+apache:
+    #image: php:apache
+    container_name: hyper_prod
+    build: ./
+    links:
+    - mysql
+    - ldap
+    ports:
+    #- "4444:4444"
+    - "80:80"
+    - "443:443"
+    privileged: true
+mysql:
+    #image: mysql:latest
+    build: ./mysql
+    container_name: mysql_hyper
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: "root"
+    volumes:
+        - dbdata:/var/lib/mysql
+        - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+        - 3306:3306
+ldap:
+    container_name: ldap_hyper
+    build: ./ldap
+    ports:
+    - "389:389"
+    volumes:
+    - "./ldap/:/ldap/"

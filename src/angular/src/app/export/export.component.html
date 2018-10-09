@@ -1,0 +1,81 @@
+<div @fadeIn>
+		<div class="row" style="margin-right: 10px; margin-left: 10px;">
+			<div class="panel panel-default panel-shadow">
+
+				<div class="panel-heading">
+				<div class="ui-grid-row">
+				<div class="ui-grid-col-6">
+					<h3 class="panel-title shadow-headpanel">Export des données</h3>
+			    </div>
+			    <div class="ui-grid-col-6" style="text-align:right;">
+
+			    </div>
+			    </div>
+				</div>
+				<div class="row">
+				<div class="panel-body">
+				<div class="panel panel-default panel-shadow">
+   				 <div class="panel-heading">Exporter un fichier plat</div>
+   				 <div class="panel-body"></div>
+ 				  <div class="row">
+  				  <div class="col-md-8">
+  				  
+  				  L'ensemble de la base des données des présences sera exportée sous la forme d'un fichier CSV 
+  				  (colonnes séparées par des points-virgule), pouvant être exploité par un tableur.
+  				  <br><br>
+  				  <b>L'export peut durer plusieurs minutes!</b>.
+  				  </div>
+  				  <div class="col-md-4">
+  				  <button type="button" [ngClass]="styleBoutonExporter" (mouseenter) ="styleBoutonExporter='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonExporter='btn btn-primary input-shadow'" (click)="telechargerCSV()"> Exporter</button>
+  				  </div>
+  				  </div>
+ 				 </div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="panel-body">
+				<div class="panel panel-default panel-shadow">
+   				 <div class="panel-heading">Exporter un fichier Excel 2007</div>
+   				 <div class="panel-body"></div>
+ 				  <div class="row">
+  				  <div class="col-md-8">
+  				  
+  				  L'ensemble de la base des données des présences sera exportée sous la forme d'un fichier Excel 2007
+  				  permettant l'affichage des caractères spéciaux. A cause du temps de traitement la sélection est limitée
+  				  à une année.
+  				    				  <br><br>
+  				  <b>L'export peut durer plusieurs minutes!</b>.
+  				  </div>
+  				  <div class="col-md-2">
+  				  <select [(ngModel)]="annee"  class="form-control input-shadow">
+					<option>2007</option>
+					<option>2008</option>
+					<option>2009</option>
+					<option>2010</option>
+					<option>2011</option>
+					<option>2012</option>
+					<option>2013</option>
+					<option>2014</option>
+					<option>2015</option>
+					<option>2016</option>
+					<option>2017</option>
+					<option>2018</option>
+					<option>2019</option>
+				  </select>
+  				  </div>
+  				  <div class="col-md-2">
+  				  <button type="button" [ngClass]="styleBoutonExporterExcel" (mouseenter) ="styleBoutonExporterExcel='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonExporterExcel='btn btn-primary input-shadow'" (click)="telechargerExcel()"> Exporter</button>
+  				  </div>
+  				  </div>
+ 				 </div>
+				</div>
+				</div>
+		   </div>
+		</div>
+	</div>
+	
+	<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" styleClass="panel-shadow"
+		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable">
+		<p-header></p-header>
+		<div  class="fade-animation" style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
+		</p-dialog>

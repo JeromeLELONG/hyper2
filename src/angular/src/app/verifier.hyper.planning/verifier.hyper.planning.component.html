@@ -1,0 +1,100 @@
+<div @fadeIn>
+	<div class="row" style="margin-right: 10px; margin-left: 10px;">
+		<div class="panel panel-default panel-shadow">
+			<div class="panel-heading">
+				<h3 class="panel-title shadow-headpanel">Vérifier les données HyperPlanning</h3>
+			</div>
+			<div class="panel-body">
+			<div class="panel-group">
+  			<div class="panel panel-primary panel-shadow">
+   				 <div class="panel-heading">Mettre à jour les salles depuis HyperPlanning</div>
+   				 <div class="panel-body"></div>
+ 				  <div class="row">
+  				  <div class="col-md-8">
+  				  <div class="container">
+  					<div class="jumbotron panel-shadow" style="width: 650px">
+  				  Cette fonctionnalité permet de mettre à jour la base des salles depuis l'application
+  				  HyperPlanning avec les capacités ainsi que toutes les informations disponibles.
+  				  Un état des changements sera affiché avant le déclenchement de l'opération.
+  				  </div>
+  				  </div>
+  				  </div>
+  				  <div class="col-md-4">
+  				  <button type="button" [ngClass]="styleBoutonMiseAJour" (mouseenter) ="styleBoutonMiseAJour='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonMiseAJour='btn btn-primary input-shadow'" (click)="controleSallesHP()"><span class="glyphicon glyphicon-refresh"></span> Mettre à jour les salles</button>
+  				  </div>
+  				  </div>
+ 				 </div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<modal [animation]="animation" [keyboard]="keyboard"
+			[backdrop]="backdrop" (onClose)="closed()" (onDismiss)="dismissed()"
+			(onOpen)="opened()" cssClass="modal-xl" #modal>
+			<modal-header [show-close]="true">
+			<h4 class="modal-title">Mise à jour des salles</h4>
+			</modal-header>
+			
+			<modal-body>
+			<div class="row">
+			<div class="container" style="margin-left: 160px;">
+  			<div class="jumbotron panel-shadow" style="width: 650px;">
+    		Remarque: toutes les salles dont le code est vide ou qui concernent des ressources
+    		telles que les vidéoprojecteurs ou du matériel pédagogique ne seront pas reprises.
+  			</div>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-6">
+			<div class="panel panel-default panel-shadow">
+  			<div class="panel-heading">Liste des salles dans HyperPlanning</div>
+  			<div class="panel-body" style="padding: 0 0 0 0;"><ag-grid-ng2 #agGrid style="height: 300px;width:440px" class="ag-fresh rotatein-animation"
+            [gridOptions]="SallesHPgridOptions">
+         </ag-grid-ng2 ></div>
+			</div>
+			</div>
+			<div class="col-md-6">
+			<div class="panel panel-default panel-shadow">
+  			<div class="panel-heading">Liste des salles dans l'application Présence</div>
+  			<div class="panel-body" style="padding: 0 0 0 0;"><ag-grid-ng2 #agGrid style="height: 300px;width:440px" class="ag-fresh rotatein-animation"
+            [gridOptions]="SallesGridOptions">
+         </ag-grid-ng2 ></div>
+			</div>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+			<div class="panel panel-info panel-shadow">
+  			<div class="panel-heading">Liste des salles qui vont être créées</div>
+  			<div class="panel-body"><ul class="list-group" *ngFor="let salle of listeSallesCreees">
+  			<li class="list-group-item list-group-item-success">{{salle.code}} - {{salle.numero}} - 
+  			{{salle.nom}} - {{salle.famille}} - Capacité {{salle.capa}} - {{salle.prop}}</li>
+			</ul></div>
+			</div>
+			</div>
+			<div class="col-md-1"></div>
+			</div>
+			<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+			<div class="panel panel-info panel-shadow">
+  			<div class="panel-heading">Liste des salles qui vont être supprimées</div>
+  			<div class="panel-body"><ul class="list-group" *ngFor="let salle of listeSallesSupprimees">
+  			<li class="list-group-item list-group-item-success">{{salle.code}} - {{salle.numero}} - 
+  			{{salle.nom}} - {{salle.famille}} - Capacité {{salle.capa}} - {{salle.prop}}</li>
+			</ul></div>
+			</div>
+			</div>
+			<div class="col-md-1"></div>
+			</div>
+			</modal-body>
+			<modal-footer>
+			<button type="button" [ngClass]="styleBoutonAnnuler" (mouseenter) ="styleBoutonAnnuler='btn btn-default input-shadow focusBig'"  (mouseleave) ="styleBoutonAnnuler='btn btn-default input-shadow'" data-dismiss="modal"
+				(click)="modal.dismiss()">Annuler</button>
+			<button type="button" [ngClass]="styleBoutonValider" (mouseenter) ="styleBoutonValider='btn btn-primary input-shadow focusBig'"  (mouseleave) ="styleBoutonValider='btn btn-primary input-shadow'" autofocus
+				(click)="MajSallesHP()">Valider la mise à jour</button>
+			</modal-footer>
+		</modal>
