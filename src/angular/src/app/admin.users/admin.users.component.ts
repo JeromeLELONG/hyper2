@@ -63,7 +63,7 @@ export class AdminUsersComponent implements OnInit{
         this.getListeUtilisateurs();
     }
     setNomUtilisateur(){
-        if((typeof this.enseignant) == "string")
+        if((typeof this.enseignant) === "string")
             {
             this.enseignant = {nom_enseignant: this.enseignant.toString()};
         this.globals.getDonneesUtilisateur(this.enseignant.nom_enseignant.substring(0,this.enseignant.nom_enseignant.indexOf(" - ")))
@@ -94,9 +94,9 @@ export class AdminUsersComponent implements OnInit{
         .subscribe(
           c => {this.listeutilisateurs = c;
           this.stylesDelete = [];
-          for(var i=0, len=this.listeutilisateurs.length; i < len; i++)
+          for(let i =0, len =this.listeutilisateurs.length; i < len; i++)
           {
-              this.stylesDelete.push("btn btn-danger input-shadow");
+              this.stylesDelete.push('btn btn-danger input-shadow');
           }
          },
           e => this.errorMessage = e,

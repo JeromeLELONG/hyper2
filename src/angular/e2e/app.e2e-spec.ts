@@ -59,8 +59,8 @@ describe('hyper App', function () {
     var until = protractor.ExpectedConditions;
     await browser.wait(until.visibilityOf(element(by.id('loginbtn'))));
     var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    const userPassField = await browser.driver.findElement(by.id('password'));
+    const userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
     userNameField.sendKeys('lelongj');
     userPassField.sendKeys('motdepasse');
     expect(userNameField.getAttribute('value')).toEqual('lelongj');
@@ -69,21 +69,21 @@ describe('hyper App', function () {
     await browser.waitForAngular();
     expect(browser.driver.getCurrentUrl()).toMatch('/app');
     await browser.wait(until.visibilityOf(element(by.id('listeFavoris3'))));
-    var myElement = await browser.driver.findElement(by.id('listeFavoris3'));
-    var listeFavoris = await myElement.getText();
+    const myElement = await browser.driver.findElement(by.id('listeFavoris3'));
+    const listeFavoris = await myElement.getText();
     expect(listeFavoris).toEqual('Graphiques 31.1.01 31.1.06 31.3.10');
     await browser.wait(until.visibilityOf(element(by.id('10002'))));
-    var lot = await browser.driver.findElement(by.id('10002'));
-    var html = await lot.getAttribute('innerHTML');
+    const lot = await browser.driver.findElement(by.id('10002'));
+    const html = await lot.getAttribute('innerHTML');
     expect(html.toString()).toContain('n°10002 - 5 fiches - Edité le');
   });
 
   it('should click the appropriate batch', async () => {
-    var EC = protractor.ExpectedConditions;
+    const EC = protractor.ExpectedConditions;
     await browser.wait(EC.visibilityOf(element(by.id('loginbtn'))));
-    var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    const userNameField = await browser.driver.findElement(by.id('username'));
+    const userPassField = await browser.driver.findElement(by.id('password'));
+    const userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
     userNameField.sendKeys('lelongj');
     userPassField.sendKeys('motdepasse');
     expect(userNameField.getAttribute('value')).toEqual('lelongj');
@@ -91,22 +91,22 @@ describe('hyper App', function () {
     await userLoginBtn.click();
     await browser.waitForAngular();
     expect(await browser.driver.getCurrentUrl()).toMatch('/app');
-    var elm = element(by.xpath('//*[@id="10003"]'));
+    const elm = element(by.xpath('//*[@id="10003"]'));
     await browser.wait(EC.elementToBeClickable(elm));
-    var batchElement = await browser.driver.findElement(by.xpath('//*[@id="10003"]'));
+    const batchElement = await browser.driver.findElement(by.xpath('//*[@id="10003"]'));
     expect(await batchElement.getText()).toEqual('  Lot n°10003 - 4 fiches - Edité le 2018-09-21 16:10:42');
     await browser.driver.findElement(by.xpath('//*[@id="10003"]')).then(element => { element.click(); });
-    var elem = element(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div[2]/div/form/div/div[1]/div'));
+    const elem = element(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div[2]/div/form/div/div[1]/div'));
     await browser.wait(EC.presenceOf(elem));
-    var html = await browser.driver.findElement(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div[2]/div/form/div/div[1]/div')).getAttribute('innerHTML');
+    const html = await browser.driver.findElement(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div[2]/div/form/div/div[1]/div')).getAttribute('innerHTML');
     expect(html.toString()).toContain('Cours DRH du lundi 10/09/2018');
   });
 
 
   it('should show schedules for a date and download the pdf document', async () => {
-    var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    const userNameField = await browser.driver.findElement(by.id('username'));
+    const userPassField = await browser.driver.findElement(by.id('password'));
+    const userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
     userNameField.sendKeys('lelongj');
     userPassField.sendKeys('motdepasse');
     expect(userNameField.getAttribute('value')).toEqual('lelongj');
@@ -115,31 +115,31 @@ describe('hyper App', function () {
     await browser.waitForAngular();
     await browser.get('http://localhost/app/edition');
     expect(await browser.driver.getCurrentUrl()).toMatch('/app/edition');
-    var elm = by.xpath('//*[@id="date-value"]/span/input');
-    var EC = protractor.ExpectedConditions;
+    const elm = by.xpath('//*[@id="date-value"]/span/input');
+    const EC = protractor.ExpectedConditions;
     await browser.wait(EC.presenceOf(element(elm)));
     await browser.driver.findElement(elm).clear();
     await browser.driver.findElement(elm).sendKeys('13/09/2018');
     await browser.driver.findElement(elm).click();
 
-    var dateSelect = by.xpath('//*[@id="date-value"]/span/div/table/tbody/tr[3]/td[4]');
+    const dateSelect = by.xpath('//*[@id="date-value"]/span/div/table/tbody/tr[3]/td[4]');
     await browser.wait(EC.visibilityOf(element(dateSelect))).then(() => {
       browser.driver.findElement(dateSelect).then((buttonDate) => {
         buttonDate.click().then(() => {
-          var groupe = by.css('p-selectbutton[ng-reflect-disabled="false"][id="selectGroupe"]');
+          const groupe = by.css('p-selectbutton[ng-reflect-disabled="false"][id="selectGroupe"]');
           browser.wait(EC.presenceOf(element(groupe))).then(() => {
             browser.driver.findElement(by.xpath('/html/body/app-root/div/ng-component/div/section/div/div/div[2]/div[2]/div/div[2]/p-selectbutton/div/div[2]/span')).then((buttonGroupe) => {
               buttonGroupe.click().then(() => {
-                var schedule = by.xpath('/html/body/app-root/div/ng-component/div/section/div/div/table/tbody/tr[3]/div/td[10]');
+                const schedule = by.xpath('/html/body/app-root/div/ng-component/div/section/div/div/table/tbody/tr[3]/div/td[10]');
                 browser.wait(EC.presenceOf(element(schedule))).then(() => {
                   browser.driver.findElement(schedule).getAttribute('innerHTML').then((html) => {
                     expect(html).toEqual('35.1.53 - Salle de réunion R6');
-                    var button = element(by.xpath('//*[@id="batchButton"]'));
+                    const button = element(by.xpath('//*[@id="batchButton"]'));
                     browser.wait(EC.visibilityOf(button)).then(() => {
                       browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="batchButton"]')))).then(() => {
                         browser.driver.findElement(by.xpath('//*[@id="batchButton"]')).then((buttonCreateBatch) => {
                           buttonCreateBatch.click().then(() => {
-                            var downloadButton = element(by.name('download'));
+                            const downloadButton = element(by.name('download'));
                             browser.wait(EC.visibilityOf(downloadButton)).then(() => {
                               browser.wait(EC.elementToBeClickable(downloadButton)).then(() => {
                                 browser.driver.findElement(by.xpath('//*[@id="download"]')).then((buttonVal) => {
@@ -179,11 +179,11 @@ describe('hyper App', function () {
 
   it('should download an excel file and check the content', async () => {
 
-    var EC = protractor.ExpectedConditions;
+    const EC = protractor.ExpectedConditions;
     await browser.wait(EC.visibilityOf(element(by.id('loginbtn'))));
-    var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    const userNameField = await browser.driver.findElement(by.id('username'));
+    const userPassField = await browser.driver.findElement(by.id('password'));
+    const userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
     userNameField.sendKeys('lelongj');
     userPassField.sendKeys('motdepasse');
     expect(userNameField.getAttribute('value')).toEqual('lelongj');
@@ -193,10 +193,10 @@ describe('hyper App', function () {
     expect(await browser.driver.getCurrentUrl()).toMatch('/app');
     await browser.get('http://localhost/app/export');
     await browser.wait(EC.presenceOf(element(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'))));
-    var exportCsvButton = await browser.driver.findElement(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'));
+    const exportCsvButton = await browser.driver.findElement(by.xpath('/html/body/app-root/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'));
     await exportCsvButton.click();
-  
-    var cookies = await browser.manage().getCookies();
+
+    const cookies = await browser.manage().getCookies();
     await browser.wait(
       request.post('http://localhost/api/presence/extraire-excel').type('form')
         .set('Cookie', 'PHPSESSID=' + cookies[0].value)
