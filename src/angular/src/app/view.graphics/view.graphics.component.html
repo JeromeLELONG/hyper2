@@ -3,93 +3,93 @@
 	<div class="row">
 		<div class="panel panel-default panel-shadow">
 			<div class="panel-heading">
-			<div class="ui-grid-row">
-				<div class="ui-grid-col-6">
-				<h3 class="panel-title shadow-headpanel">Histogrammes du nombre de présents par salle</h3>
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-6">
+						<h3 class="panel-title shadow-headpanel">Histogrammes du nombre de présents par salle</h3>
+					</div>
+					<div class="ui-grid-col-6" style="text-align:right;">
+						<button type="button" class="btn btn-link" (click)="creerFavoris()" style="padding: 0 0 0 0; font-size: 12px;"><span
+							 class="glyphicon glyphicon-paperclip"></span> Sauvegarder ces paramètres dans les favoris</button>
+					</div>
 				</div>
-			    <div class="ui-grid-col-6" style="text-align:right;">
-			    <button type="button" class="btn btn-link" (click)="creerFavoris()" style="padding: 0 0 0 0; font-size: 12px;"><span class="glyphicon glyphicon-paperclip"></span> Sauvegarder ces paramètres dans les favoris</button>
-			    </div>
-			    </div>
 			</div>
 
-<div>
-		<div class="ui-g-12 ui-md-3 fade-animation">
+			<div>
+				<div class="ui-g-12 ui-md-3 fade-animation">
 					<div class="panel panel-default panel-shadow" style="border-radius: 40px;">
-					  <div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-calendar"></span> Date de début</h3></div>
-  						<div class="panel-body" style="height: 70px; padding: 5px 20px 5px 45px;">
-  									<p-calendar [(ngModel)]="dateDebut" [locale]="globals.frLabel" [style]="{'border-radius':'20px','margin-bottom':'14px'}" styleClass="input-shadow"
-						(onSelect)="getPresence($event)" dateFormat="dd/mm/yy" [maxDate]="dateFin"></p-calendar><br>&nbsp;&nbsp;
-						{{dateDebutString}}
-  						</div>
+						<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+							<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-calendar"></span>
+								Date de début</h3>
+						</div>
+						<div class="panel-body" style="height: 70px; padding: 5px 20px 5px 45px;">
+							<p-calendar id="dateDebut" [(ngModel)]="dateDebut" [locale]="globals.frLabel" [style]="{'border-radius':'20px','margin-bottom':'14px'}"
+							 styleClass="input-shadow" [disabled]="isLoading" (onSelect)="getPresence($event)" dateFormat="dd/mm/yy"
+							 [maxDate]="dateFin"></p-calendar><br>&nbsp;&nbsp;
+							{{dateDebutString}}
+						</div>
 					</div>
-			
 
-		</div>
-		<div class="ui-g-12 ui-md-1 fade-animation"></div>
-		<div class="ui-g-12 ui-md-3 fade-animation">
+
+				</div>
+				<div class="ui-g-12 ui-md-1 fade-animation"></div>
+				<div class="ui-g-12 ui-md-3 fade-animation">
 					<div class="panel panel-default panel-shadow" style="border-radius: 40px;">
-					  <div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-calendar"></span> Date de fin</h3></div>
-  						<div class="panel-body" style="height: 70px; padding: 5px 20px 5px 45px;">
-  									<p-calendar [(ngModel)]="dateFin" [locale]="globals.frLabel" [style]="{'border-radius':'20px','margin-bottom':'14px'}" styleClass="input-shadow"
-				(onSelect)="getPresence($event)" dateFormat="dd/mm/yy"
-				[minDate]="dateDebut"></p-calendar><br>&nbsp;&nbsp;
-						{{dateFinString}}
-  						</div>
+						<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+							<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-calendar"></span>
+								Date de fin</h3>
+						</div>
+						<div class="panel-body" style="height: 70px; padding: 5px 20px 5px 45px;">
+							<p-calendar id="dateFin" [(ngModel)]="dateFin" [locale]="globals.frLabel" [style]="{'border-radius':'20px','margin-bottom':'14px'}"
+							 styleClass="input-shadow" [disabled]="isLoading" (onSelect)="getPresence($event)" dateFormat="dd/mm/yy"
+							 [minDate]="dateDebut"></p-calendar><br>&nbsp;&nbsp;
+							{{dateFinString}}
+						</div>
 					</div>
-		</div>
-		<div class="ui-g-12 ui-md-1 fade-animation"></div>
-		<div class="ui-g-12 ui-md-4 fade-animation">
-		
-							<div class="panel panel-default panel-shadow" style="border-radius: 40px;">
-					  <div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;"><h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-home"></span> Choisir les salles</h3></div>
-  						<div class="panel-body" style="height: 70px; padding: 5px 5px 5px 5px;">
-<p-multiSelect [options]="salles" [(ngModel)]="selectedSalles" (onChange)="getPresence($event)" defaultLabel="Sélectionner" styleClass="input-shadow"
-[style]="{'width':'100%', 'height':'40px'}" selectedItemsLabel = '{0} élements sélectionnées'></p-multiSelect>
+				</div>
+				<div class="ui-g-12 ui-md-1 fade-animation"></div>
+				<div class="ui-g-12 ui-md-4 fade-animation">
+
+					<div class="panel panel-default panel-shadow" style="border-radius: 40px;">
+						<div class="panel-heading" style="padding: 5px 5px 5px 5px; border-top-left-radius: 40px; border-top-right-radius: 40px;">
+							<h3 class="soustitre-text-shadow" style="margin: 0 0 0 20px;"><span class="glyphicon glyphicon-home"></span>
+								Choisir les salles</h3>
+						</div>
+						<div class="panel-body" style="height: 70px; padding: 5px 5px 5px 5px;">
+							<p-multiSelect id="selectSalles" [options]="salles" [(ngModel)]="selectedSalles" (onChange)="getPresence($event)"
+							 defaultLabel="Sélectionner" styleClass="input-shadow" [disabled]="isLoading" [style]="{'width':'100%', 'height':'40px'}"
+							 selectedItemsLabel='{0} élements sélectionnées'></p-multiSelect>
+						</div>
+					</div>
+				</div>
 			</div>
+			<div class="row">
+				<div style="height:400px; margin-left:10px;">
+					<ngx-charts-bar-vertical-2d class="chart-container" [view]="view" [scheme]="colorScheme" [schemeType]="schemeType"
+					 id="graphicSalles" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+					 [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+					 (legendLabelClick)="onLegendLabelClick($event)" [showGridLines]="showGridLines" [barPadding]="barPadding"
+					 [groupPadding]="groupPadding" [roundDomains]="roundDomains" (select)="selectData($event)">
+					</ngx-charts-bar-vertical-2d>
+				</div>
 			</div>
 		</div>
 	</div>
-		<div class="row">
-		<div style="height:400px; margin-left:10px;">
-		 <ngx-charts-bar-vertical-2d
-        class="chart-container"
-        [view]="view"
-        [scheme]="colorScheme"
-        [schemeType]="schemeType"
-        [results]="multi"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [legend]="showLegend"
-        [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        (legendLabelClick)="onLegendLabelClick($event)"
-        [showGridLines]="showGridLines"
-        [barPadding]="barPadding"
-        [groupPadding]="groupPadding"
-        [roundDomains]="roundDomains"
-        (select)="selectData($event)">
-      </ngx-charts-bar-vertical-2d></div>
+
+</div>
+<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" responsive="true"
+ *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
+	<p-header></p-header>
+	<div style="height: 150px; padding-left:42px; padding-right:42px;">
+		<app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader>
 	</div>
-</div>
-		</div>
-	
-</div>
-		<p-dialog header="Chargement des données" [(visible)]="display" modal="modal" width="200" height="200" 
-		responsive="true" *ngIf="loading" [(closable)]="closable" [(resizable)]="resizable" styleClass="panel-shadow">
-		<p-header></p-header>
-		<div style="height: 150px; padding-left:42px; padding-right:42px;"><app-loader [loading]="loading" [failed]="failed" [texte]="texte"></app-loader></div>
-		</p-dialog>
-		
-		<p-dialog [(visible)]="displaySuccessFavoris" [modal]="false"
-		width="180" responsive="true" [closable]="false" [resizable]="false" [styleClass]="styleDialogFavoris">
-		    <p-header>
-        <div style="text-align: center;">Favori sauvé</div>
-    	</p-header>
-    		<div style="text-align: center;">Voir les graphiques avec 
-    		<div><br>les salles<br><b>{{selectedSalles}}</b></div>
-    		</div>
-		</p-dialog>
+</p-dialog>
+
+<p-dialog [(visible)]="displaySuccessFavoris" [modal]="false" width="180" responsive="true" [closable]="false"
+ [resizable]="false" [styleClass]="styleDialogFavoris">
+	<p-header>
+		<div style="text-align: center;">Favori sauvé</div>
+	</p-header>
+	<div style="text-align: center;">Voir les graphiques avec
+		<div><br>les salles<br><b>{{selectedSalles}}</b></div>
+	</div>
+</p-dialog>
