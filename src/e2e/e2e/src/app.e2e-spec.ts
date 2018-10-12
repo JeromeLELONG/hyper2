@@ -47,18 +47,14 @@ describe('hyper App ', function () {
     await exportCsvButton.click();
     var cookies = await browser.manage().getCookies();
     var context = await browserName();
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     var zipFile = await request.post('http://localhost/api/presence/extraire-excel').type('form')
       .set('Cookie', 'PHPSESSID=' + cookies[0].value)
       .field('datedebut', '01/09/2008')
       .field('datefin', '31/08/2009').parse(binaryParser).buffer()
     fs.writeFileSync('/var/www/html/applications/hyper/data/export_' + context + '.zip', zipFile.body, 'binary');
-    console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
     var data = await unzipper.Open.file('/var/www/html/applications/hyper/data/export_' + context + '.zip');
-    console.log('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
     await fs.createReadStream('/var/www/html/applications/hyper/data/export_' + context + '.zip')
       .pipe(unzipper.Extract({ path: '/var/www/html/applications/hyper/data/' })).promise();
-    console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
     var excelFile = await readXlsxFile('/var/www/html/applications/hyper/data/' + data.files[0].path);
     expect(excelFile[10][7]).toEqual('Amphi Z');
     expect(excelFile[50][4]).toEqual('02/10/2008');

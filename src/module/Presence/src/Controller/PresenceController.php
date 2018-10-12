@@ -246,7 +246,7 @@ class PresenceController extends AbstractActionController {
 	
 	public function extraireExcelAction()
 	{
-		$dirTmp = $dirTmp;
+		$dirTmp = __DIR__.'/../../../../data/';
 		ini_set('memory_limit', '6092M');
 		set_time_limit(520);
 		$request = $this->getRequest ();
