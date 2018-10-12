@@ -5,5 +5,7 @@
 /tmp
 data/export*.zip
 data/*.xlsx
+data/*.zip
+data/*.csv
 # dependencies
 vendor
