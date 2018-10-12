@@ -62,9 +62,9 @@ describe('hyper App ', function () {
     await browser.wait(EC.visibilityOf(element(dateFinSelect)));
     await element(dateFinSelect).click();
     await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
-    //await element(by.xpath('//*[@id="selectSalles"]/div')).click(); // 
-    //await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div'))));
-    await element(by.xpath('//*[@id="selectSalles"]/div/div[3]/span')).click();
+    //await element(by.xpath('//*[@id="selectSalles"]/div')).click(); // //*[@id="selectSalles"]/div/div[3]/span
+    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div'))));
+    await element(by.xpath('//*[@id="selectSalles"]/div')).click();
     await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[1]/div'))));
     await element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[1]/div')).click();
     await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));

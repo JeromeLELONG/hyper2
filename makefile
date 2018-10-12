@@ -36,6 +36,12 @@ build-image:
 	docker build -t hyper --force-rm .
 
 exec-e2e:
+	docker cp selenium hyper:/usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'cd /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/ && unzip /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.42.zip'
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'cd /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/ && tar -zxvf /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.23.0.tar.gz'
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'mv /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.42'
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'mv /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.23.0'
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'cp /usr/src/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.14.0.jar /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.14.0.jar'
 	docker exec -it hyper bash -ci 'cd /usr/src/e2e && protractor'
 
 reinit-db:
