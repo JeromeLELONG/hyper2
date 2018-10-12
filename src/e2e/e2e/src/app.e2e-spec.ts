@@ -26,6 +26,42 @@ describe('hyper App ', function () {
 
 
 
+  it('should download an excel file and check the content', async () => {
+
+    var EC = protractor.ExpectedConditions;
+    await browser.wait(EC.visibilityOf(element(by.id('loginbtn'))));
+    var userNameField = await browser.driver.findElement(by.id('username'));
+    var userPassField = await browser.driver.findElement(by.id('password'));
+    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    userNameField.sendKeys('lelongj');
+    userPassField.sendKeys('motdepasse');
+    expect(userNameField.getAttribute('value')).toEqual('lelongj');
+    expect(userPassField.getAttribute('value')).toEqual('motdepasse');
+    await userLoginBtn.click();
+    await browser.waitForAngular();
+    expect(await browser.driver.getCurrentUrl()).toMatch('/app');
+    await browser.wait(EC.visibilityOf(element(by.id('exportLink'))));
+    await browser.wait(EC.elementToBeClickable(element(by.id('exportLink'))));
+    await browser.executeScript("arguments[0].click();", element(by.id('exportLink')));
+    await browser.wait(EC.presenceOf(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'))));
+    var exportCsvButton = await browser.driver.findElement(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'));
+    //await exportCsvButton.click();
+    var cookies = await browser.manage().getCookies();
+    var context = await browserName();
+    var zipFile = await request.post('http://localhost/api/presence/extraire-excel').type('form')
+      .set('Cookie', 'PHPSESSID=' + cookies[0].value)
+      .field('datedebut', '01/09/2008')
+      .field('datefin', '31/08/2009').parse(binaryParser).buffer();
+    fs.writeFileSync('/var/www/html/applications/hyper/data/export_' + context + '.zip', zipFile.body, 'binary');
+    var data = await unzipper.Open.file('/var/www/html/applications/hyper/data/export_' + context + '.zip');
+    await fs.createReadStream('/var/www/html/applications/hyper/data/export_' + context + '.zip')
+      .pipe(unzipper.Extract({ path: '/var/www/html/applications/hyper/data/' })).promise();
+    var excelFile = await readXlsxFile('/var/www/html/applications/hyper/data/' + data.files[0].path);
+    expect(excelFile[10][7]).toEqual('Amphi Z');
+    expect(excelFile[50][4]).toEqual('02/10/2008');
+    expect(excelFile[14][7]).toEqual('9.B0.15');
+
+  });
 
   it('should display welcoming message', async () => {
 
@@ -189,42 +225,6 @@ describe('hyper App ', function () {
   });
 
 
-  it('should download an excel file and check the content', async () => {
-
-    var EC = protractor.ExpectedConditions;
-    await browser.wait(EC.visibilityOf(element(by.id('loginbtn'))));
-    var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
-    userNameField.sendKeys('lelongj');
-    userPassField.sendKeys('motdepasse');
-    expect(userNameField.getAttribute('value')).toEqual('lelongj');
-    expect(userPassField.getAttribute('value')).toEqual('motdepasse');
-    await userLoginBtn.click();
-    await browser.waitForAngular();
-    expect(await browser.driver.getCurrentUrl()).toMatch('/app');
-    await browser.wait(EC.visibilityOf(element(by.id('exportLink'))));
-    await browser.wait(EC.elementToBeClickable(element(by.id('exportLink'))));
-    await browser.executeScript("arguments[0].click();", element(by.id('exportLink')));
-    await browser.wait(EC.presenceOf(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'))));
-    var exportCsvButton = await browser.driver.findElement(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'));
-    await exportCsvButton.click();
-    var cookies = await browser.manage().getCookies();
-    var context = await browserName();
-    var zipFile = await request.post('http://localhost/api/presence/extraire-excel').type('form')
-      .set('Cookie', 'PHPSESSID=' + cookies[0].value)
-      .field('datedebut', '01/09/2008')
-      .field('datefin', '31/08/2009').parse(binaryParser).buffer()
-    fs.writeFileSync('/var/www/html/applications/hyper/data/export_' + context + '.zip', zipFile.body, 'binary');
-    var data = await unzipper.Open.file('/var/www/html/applications/hyper/data/export_' + context + '.zip');
-    await fs.createReadStream('/var/www/html/applications/hyper/data/export_' + context + '.zip')
-      .pipe(unzipper.Extract({ path: '/var/www/html/applications/hyper/data/' })).promise();
-    var excelFile = await readXlsxFile('/var/www/html/applications/hyper/data/' + data.files[0].path);
-    expect(excelFile[10][7]).toEqual('Amphi Z');
-    expect(excelFile[50][4]).toEqual('02/10/2008');
-    expect(excelFile[14][7]).toEqual('9.B0.15');
-
-  });
 
 
   it('should generate a graphic with room usage numbers', async () => {

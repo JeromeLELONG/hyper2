@@ -4,7 +4,7 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 var q = require("q");
 var FirefoxProfile = require("firefox-profile");
-var makeFirefoxProfile = function(preferenceMap) {
+var makeFirefoxProfile = function (preferenceMap) {
 
     var deferred = q.defer();
     var firefoxProfile = new FirefoxProfile();
@@ -13,7 +13,7 @@ var makeFirefoxProfile = function(preferenceMap) {
         firefoxProfile.setPreference(key, preferenceMap[key]);
     };
 
-    firefoxProfile.encoded(function(encodedProfile) {
+    firefoxProfile.encoded(function (encodedProfile) {
         var capabilities = {
             browserName: "firefox",
             "firefox_binary": "/usr/bin/firefox",
@@ -51,7 +51,7 @@ exports.config = {
         args: [ '--headless' ]
       }
     },*/
-    getMultiCapabilities: function() {
+    getMultiCapabilities: function () {
         return q.all([
             makeFirefoxProfile(
                 {
@@ -90,7 +90,7 @@ exports.config = {
     jasmineNodeOpts: {
         showColors: true,
         defaultTimeoutInterval: 30000,
-        print: function() { }
+        print: function () { }
     },
     onPrepare() {
         require('ts-node').register({

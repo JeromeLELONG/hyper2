@@ -42,6 +42,9 @@ exec-e2e:
 	docker-compose -f docker-compose-test.yml exec apache bash -ci 'mv /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.42'
 	docker-compose -f docker-compose-test.yml exec apache bash -ci 'mv /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.23.0'
 	docker-compose -f docker-compose-test.yml exec apache bash -ci 'cp /usr/src/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.14.0.jar /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.14.0.jar'
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'rm -rf /var/www/html/applications/hyper/data/*.zip 2> /dev/null || echo > /dev/null' 
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'rm -rf /var/www/html/applications/hyper/data/*.xlsx 2> /dev/null || echo > /dev/null' 
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'rm -rf /var/www/html/applications/hyper/data/*.csv 2> /dev/null || echo > /dev/null' 
 	docker exec -it hyper bash -ci 'cd /usr/src/e2e && protractor'
 
 reinit-db:
@@ -69,6 +72,9 @@ test-e2e: # Start test environment
 	docker-compose -f docker-compose-test.yml exec apache bash -ci 'mv /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.42'
 	docker-compose -f docker-compose-test.yml exec apache bash -ci 'mv /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/geckodriver-v0.23.0'
 	docker-compose -f docker-compose-test.yml exec apache bash -ci 'cp /usr/src/node_modules/selenium-server-standalone-jar/jar/selenium-server-standalone-3.14.0.jar /usr/lib/node_modules/protractor/node_modules/webdriver-manager/selenium/selenium-server-standalone-3.14.0.jar'
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'rm -rf /var/www/html/applications/hyper/data/*.zip 2> /dev/null || echo > /dev/null' 
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'rm -rf /var/www/html/applications/hyper/data/*.xlsx 2> /dev/null || echo > /dev/null' 
+	docker-compose -f docker-compose-test.yml exec apache bash -ci 'rm -rf /var/www/html/applications/hyper/data/*.csv 2> /dev/null || echo > /dev/null' 
 	docker exec -it hyper bash -ci 'cd /usr/src/e2e && protractor'
 	docker-compose -f docker-compose-test.yml down
 
