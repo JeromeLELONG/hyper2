@@ -74,8 +74,14 @@ describe('hyper App ', function () {
     var chart = by.xpath('//*[@id="graphicSalles"]');
     await browser.sleep(1000);
     await browser.wait(EC.presenceOf(element(chart)));
-    var values = await element(chart).all(by.css('g[ng-reflect-series="[object Object]"]'));
-    expect(await values[13].getAttribute('innerHTML')).toContain('path class="bar" stroke="none"');
+    var values = await element(chart).all(by.css('g[ng-reflect-series="[object Object]"][ngx-charts-series-vertical]'));
+    var emptyValuesFirefox = await element(chart).all(by.css('g[ngx-charts-bar][ng-reflect-y="281"]'));
+    var emptyValuesChrome = await element(chart).all(by.css('g[ngx-charts-bar][ng-reflect-y="283"]'));
+    //expect(await values[13].getAttribute('innerHTML')).toContain('path class="bar" stroke="none"');
+    if (!emptyValuesFirefox.length)
+      expect(emptyValuesChrome.length).toEqual(31);
+    else
+      expect(emptyValuesFirefox.length).toEqual(31);
 
   });
 
