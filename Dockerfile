@@ -39,3 +39,4 @@ COPY src/angular/src/css /var/www/html/applications/hyper/public/css
 COPY src/angular/src/js /var/www/html/applications/hyper/public/js
 COPY src/angular/src/fonts /var/www/html/applications/hyper/public/fonts
 COPY build/global.php /var/www/html/applications/hyper/config/autoload/global.php
+COPY build/development.local.php /var/www/html/applications/hyper/config/autoload/development.local.php

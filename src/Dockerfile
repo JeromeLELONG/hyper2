@@ -34,7 +34,9 @@ RUN a2enmod rewrite proxy proxy_http proxy_wstunnel proxy_html substitute filter
 #COPY composer.phar /var/www/html/applications/hyper/composer.phar
 #COPY composer.json /var/www/html/applications/hyper/composer.json
 #RUN php /var/www/html/composer.phar install 
+COPY data /var/www/html/applications/hyper/data
 RUN chown -R www-data:www-data /var/www
+RUN chown -R www-data:www-data /var/www/html/applications/hyper/data
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get install -y openjdk-8-jre-headless
 RUN apt-get install -y unzip

@@ -29,8 +29,8 @@ reload-apache:
 
 test-e2e-local: reinit-db exec-e2e
 
-build-app:
-	docker exec -it node_hyper bash -ci '/usr/src/compiler.sh'
+build-node-app:
+	docker-compose run --rm --no-deps node bash -ci '/usr/src/compiler.sh'
 
 build-image:
 	docker build -t hyper --force-rm .

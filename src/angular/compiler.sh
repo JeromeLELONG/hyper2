@@ -1,5 +1,5 @@
-ng build --prod
 cp /usr/src/ui-switch.component.ts /usr/src/node_modules/angular2-ui-switch/src/ui-switch.component.ts
+ng build --prod
 rm /usr/src/src/css/fontawesome*
 rm /usr/src/src/css/glyphicons*
 rm /usr/src/src/css/roboto*

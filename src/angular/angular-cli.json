@@ -9,10 +9,10 @@
       "outDir": "dist",
       "assets": [
         "assets",
-	"css",
-	"js",
-	"img",
-	"fonts",
+        "css",
+        "js",
+        "img",
+        "fonts",
         "manifest.json",
         "favicon.ico"
       ],
@@ -25,25 +25,25 @@
       "styles": [
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/primeng/resources/primeng.min.css",
-        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../src/css/omega/themecustom.css",
         "../node_modules/@swimlane/ngx-charts/release/index.css",
         "../node_modules/@swimlane/ngx-datatable/release/index.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-         "../node_modules/ag-grid/dist/styles/ag-grid.css",
+        "../node_modules/ag-grid/dist/styles/ag-grid.css",
         "styles.css"
       ],
-      "scripts": [ 
-      "../node_modules/jquery/dist/jquery.min.js",
-      "js/jquery-migrate-3.0.0.js",
-      "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-      "../node_modules/jqueryui/jquery-ui.min.js",
-      "../node_modules/moment/min/moment.min.js",
-      "../node_modules/fullcalendar/dist/fullcalendar.min.js",
-      "../node_modules/fullcalendar/dist/locale/fr.js",
-      "../node_modules/chart.js/dist/Chart.bundle.min.js",
-      "js/jquery.ui.timepicker.js"
-      ], 
-      "environmentSource" : "environments/environment.ts",
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "js/jquery-migrate-3.0.0.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/jqueryui/jquery-ui.min.js",
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/fullcalendar/dist/fullcalendar.min.js",
+        "../node_modules/fullcalendar/dist/locale/fr.js",
+        "../node_modules/chart.js/dist/Chart.bundle.min.js",
+        "js/jquery.ui.timepicker.js"
+      ],
+      "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"

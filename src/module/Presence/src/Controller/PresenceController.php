@@ -205,13 +205,13 @@ class PresenceController extends AbstractActionController {
 	
 	public function extraireAction()
 	{
-		$dirTmp = '/tmp/';
+		$dirTmp = __DIR__.'/../../../../data/';
 		ini_set('memory_limit', '1024M');
 		set_time_limit(160);
 		$session = new Container('admin');
 		$connectionToken = md5($session->offsetGet("login")).'_'.date("Ymd_His");
 		$results = $this->presenceTable->fetchAll();
-		$outputfile = @fopen( '/tmp/'.$connectionToken.'.csv', 'w' );
+		$outputfile = @fopen( $dirTmp.$connectionToken.'.csv', 'w' );
 		foreach($results as $result) {
 			fputcsv($outputfile, $result->getArrayISOCopy(),';');
 		}
@@ -219,12 +219,12 @@ class PresenceController extends AbstractActionController {
 		$filter     = new \Zend\Filter\Compress(array(
 				'adapter' => 'Zip',
 				'options' => array(
-						'archive' => '/tmp/'.$connectionToken.'.zip'
+						'archive' => $dirTmp.$connectionToken.'.zip'
 				),
 		));
-		$compressed = $filter->filter('/tmp/'.$connectionToken.'.csv');
+		$compressed = $filter->filter($dirTmp.$connectionToken.'.csv');
 		
-		$file = '/tmp/'.$connectionToken.'.zip';
+		$file = $dirTmp.$connectionToken.'.zip';
 		$response = new \Zend\Http\Response\Stream();
 		$response->setStream(fopen($file, 'r'));
 		$response->setStatusCode(200);
@@ -246,7 +246,7 @@ class PresenceController extends AbstractActionController {
 	
 	public function extraireExcelAction()
 	{
-		$dirTmp = '/tmp/';
+		$dirTmp = $dirTmp;
 		ini_set('memory_limit', '6092M');
 		set_time_limit(520);
 		$request = $this->getRequest ();

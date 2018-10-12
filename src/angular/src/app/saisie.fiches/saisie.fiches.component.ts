@@ -21,9 +21,9 @@ import 'bootstrap';
 declare var jQuery: any;
 import * as $ from 'jquery';
 
-type Orientation = ( "prev" | "next" | "none" );
+type Orientation = ("prev" | "next" | "none");
 
-@Component( {
+@Component({
     templateUrl: './saisie.fiches.component.html',
     styles: [`
                  ng2-auto-complete, input {
@@ -31,13 +31,13 @@ type Orientation = ( "prev" | "next" | "none" );
                  }
                `],
     animations: [
-        trigger( 'fadeIn', [
-            state( '*', style( { 'opacity': 1 } ) ),
-            transition( 'void => *', [
-                style( { 'opacity': 0 } ),
-                animate( '800ms linear' )
-            ] )
-        ] ),
+        trigger('fadeIn', [
+            state('*', style({ 'opacity': 1 })),
+            transition('void => *', [
+                style({ 'opacity': 0 }),
+                animate('800ms linear')
+            ])
+        ]),
         trigger(
             "ficheAnimation",
             [
@@ -49,18 +49,18 @@ type Orientation = ( "prev" | "next" | "none" );
                         // in both the initial and target styles. Unfortunately, this 
                         // means that we ALSO have to define target values for the rest
                         // of the styles, which we wouldn't normally have to.
-                        style( {
+                        style({
                             left: -100,
                             opacity: 0.0,
                             zIndex: 2
-                        } ),
+                        }),
                         animate(
                             "200ms ease-in-out",
-                            style( {
+                            style({
                                 left: 0,
                                 opacity: 1.0,
                                 zIndex: 2
-                            } )
+                            })
                         )
                     ]
                 ),
@@ -69,10 +69,10 @@ type Orientation = ( "prev" | "next" | "none" );
                     [
                         animate(
                             "200ms ease-in-out",
-                            style( {
+                            style({
                                 left: 100,
                                 opacity: 0.0
-                            } )
+                            })
                         )
                     ]
                 ),
@@ -84,18 +84,18 @@ type Orientation = ( "prev" | "next" | "none" );
                         // in both the initial and target styles. Unfortunately, this 
                         // means that we ALSO have to define target values for the rest
                         // of the styles, which we wouldn't normally have to.
-                        style( {
+                        style({
                             left: 100,
                             opacity: 0.0,
                             zIndex: 2
-                        } ),
+                        }),
                         animate(
                             "200ms ease-in-out",
-                            style( {
+                            style({
                                 left: 0,
                                 opacity: 1.0,
                                 zIndex: 2
-                            } )
+                            })
                         )
                     ]
                 ),
@@ -104,10 +104,10 @@ type Orientation = ( "prev" | "next" | "none" );
                     [
                         animate(
                             "200ms ease-in-out",
-                            style( {
+                            style({
                                 left: -100,
                                 opacity: 0.0
-                            } )
+                            })
                         )
                     ]
                 )
@@ -117,7 +117,7 @@ type Orientation = ( "prev" | "next" | "none" );
     providers: [LotService, PresenceService, Globals]
     //animations: [routerTransition("fadeIn")],
     //host: {'[@routerTransition]': ''}
-} )
+})
 export class SaisieFichesComponent implements OnInit {
     public orientation: Orientation;
     public selectedFiche: Presence;
@@ -125,7 +125,7 @@ export class SaisieFichesComponent implements OnInit {
     private fiches: Presence[];
     enseignant = { nom_enseignant: "" };
     ListeEnseignants: string = `${this.globals.appUrl}ldapservice?nom=:nom_enseignant`;
-    @ViewChild( 'modal' ) modal: ModalComponent;
+    @ViewChild('modal') modal: ModalComponent;
     output: string;
     selected: string;
     animation: boolean = true;
@@ -146,12 +146,12 @@ export class SaisieFichesComponent implements OnInit {
     styleBoutonSuivante: string = "btn btn-success input-shadow";
     styleBoutonPrecedente: string = "btn btn-primary input-shadow";
 
-    constructor( changeDetectorRef: ChangeDetectorRef, public globals: Globals,
+    constructor(changeDetectorRef: ChangeDetectorRef, public globals: Globals,
         private _sanitizer: DomSanitizer,
-        @Inject( LotService ) private lotService: LotService,
-        @Inject( PresenceService ) private presenceService: PresenceService,
+        @Inject(LotService) private lotService: LotService,
+        @Inject(PresenceService) private presenceService: PresenceService,
         private el: ElementRef, public zone: NgZone, private route: ActivatedRoute, ) {
-        if ( location.host.search( 'localhost' ) == 0 )
+        if (location.host.search('localhost') == 0)
             this.ListeEnseignants = `${this.globals.appUrl}ldapservice?nom=:nom_enseignant`;
         else
             this.ListeEnseignants = "/ldapservice?nom=:nom_enseignant";
@@ -159,7 +159,7 @@ export class SaisieFichesComponent implements OnInit {
         this.changeDetectorRef = changeDetectorRef;
         this.orientation = "none";
 
-        this.fiches = <Presence[]>[<Presence>( { nolot: 0 } )];
+        this.fiches = <Presence[]>[<Presence>({ nolot: 0 })];
         this.selectedFiche = this.fiches[0];
         this.el = el.nativeElement;
         //this.dom = new BrowserDomAdapter();
@@ -169,81 +169,81 @@ export class SaisieFichesComponent implements OnInit {
         this.modal.open();
         this.sub = this.route
             .queryParams
-            .subscribe( params => {
-                if ( params['lot'] ) {
+            .subscribe(params => {
+                if (params['lot']) {
                     this.numeroLot = params['lot'];
                     this.lotService
-                        .getLot( params['lot'] )
+                        .getLot(params['lot'])
                         .subscribe(
-                        ( l: Lot[] ) => {
-                            let listeID: string[] = [];
-                            for ( let i = 0; i < l.length; i++ )
-                                listeID.push( l[i].id );
-                            this.lot = [];
-                            this.lot = l;
-                            if ( l.length > 0 )
-                                this.presenceService.getFromListeID( listeID ).subscribe(( p: Presence[] ) => {
-                                    this.fiches = [];
-                                    let fiche: Presence;
-                                    if ( p.length > 0 )
-                                        for ( let i = 0; i < this.lot.length; i++ ) {
-                                            fiche = p.find( x => x.id === this.lot[i].id );
-                                            this.fiches.push( fiche );
-                                        }
-                                    this.confirmLot();
-                                } );
-                        } );
+                            (l: Lot[]) => {
+                                const listeID: string[] = [];
+                                for (let i = 0; i < l.length; i++)
+                                    listeID.push(l[i].id);
+                                this.lot = [];
+                                this.lot = l;
+                                if (l.length > 0)
+                                    this.presenceService.getFromListeID(listeID).subscribe((p: Presence[]) => {
+                                        this.fiches = [];
+                                        let fiche: Presence;
+                                        if (p.length > 0)
+                                            for (let i = 0; i < this.lot.length; i++) {
+                                                fiche = p.find(x => x.id === this.lot[i].id);
+                                                this.fiches.push(fiche);
+                                            }
+                                        this.confirmLot();
+                                    });
+                            });
                 }
-            } );
+            });
     }
 
-    verifNumLot( event ) {
+    verifNumLot(event) {
 
         this.lotService
-            .getLot( event )
+            .getLot(event)
             .subscribe(
-            ( l: Lot[] ) => {
-                let listeID: string[] = [];
-                for ( let i = 0; i < l.length; i++ )
-                    listeID.push( l[i].id );
-                this.lot = [];
-                this.lot = l;
-                if ( l.length > 0 )
-                    this.presenceService.getFromListeID( listeID ).subscribe(( p: Presence[] ) => {
-                        this.fiches = [];
-                        let fiche: Presence;
-                        if ( p.length > 0 )
-                            for ( let i = 0; i < this.lot.length; i++ ) {
-                                fiche = p.find( x => x.id === this.lot[i].id );
-                                this.fiches.push( fiche );
-                            }
-                    } );
-                if ( this.lot.length > 0 )
-                    this.lotInvalid = false;
-                else
-                    this.lotInvalid = true;
-            } );
+                (l: Lot[]) => {
+                    const listeID: string[] = [];
+                    for (let i = 0; i < l.length; i++)
+                        listeID.push(l[i].id);
+                    this.lot = [];
+                    this.lot = l;
+                    if (l.length > 0)
+                        this.presenceService.getFromListeID(listeID).subscribe((p: Presence[]) => {
+                            this.fiches = [];
+                            let fiche: Presence;
+                            if (p.length > 0)
+                                for (let i = 0; i < this.lot.length; i++) {
+                                    fiche = p.find(x => x.id === this.lot[i].id);
+                                    this.fiches.push(fiche);
+                                }
+                        });
+                    if (this.lot.length > 0)
+                        this.lotInvalid = false;
+                    else
+                        this.lotInvalid = true;
+                });
     }
 
-    getFiche( id ) {
-        return this.lot.find( x => x.id === id );
+    getFiche(id) {
+        return this.lot.find(x => x.id === id);
     }
 
-    getPresence( id ) {
-        return this.fiches.find( x => x.id === id );
+    getPresence(id) {
+        return this.fiches.find(x => x.id === id);
     }
 
-    json( obj ) {
-        return JSON.stringify( obj );
+    json(obj) {
+        return JSON.stringify(obj);
     }
     confirmLot() {
         this.showMainForm = true;
         this.lotInvalid = false;
-        this.fiches.forEach( function( element ) {
-            if ( !element.appariteur || element.appariteur == "" ) element.appariteur = this.globals.donneesConnexion.cn;
-        }, this );
+        this.fiches.forEach(function (element) {
+            if (!element.appariteur || element.appariteur === "") element.appariteur = this.globals.donneesConnexion.cn;
+        }, this);
         this.selectedFiche = this.fiches[0];
-        if ( this.selectedFiche.enseignant )
+        if (this.selectedFiche.enseignant)
             this.enseignant.nom_enseignant = this.selectedFiche.enseignant;
         else this.enseignant.nom_enseignant = "";
         this.setHeuresReelles();
@@ -251,29 +251,29 @@ export class SaisieFichesComponent implements OnInit {
     }
 
     setHeuresReelles() {
-        if ( this.selectedFiche.hdebut_reel )
+        if (this.selectedFiche.hdebut_reel)
             this.hdebut = this.selectedFiche.hdebut_reel;
         else this.hdebut = "";
 
-        if ( this.selectedFiche.hfin_reel )
+        if (this.selectedFiche.hfin_reel)
             this.hfin = this.selectedFiche.hfin_reel;
         else this.hfin = "";
     }
     setNomEnseignant() {
-        if ( ( typeof this.enseignant ) == "string" ) this.enseignant = { nom_enseignant: this.enseignant.toString() };
+        if ((typeof this.enseignant) == "string") this.enseignant = { nom_enseignant: this.enseignant.toString() };
     }
     public showNextFiche(): void {
         this.selectedFiche.valide = "Y";
         this.selectedFiche.enseignant = this.enseignant.nom_enseignant;
         this.selectedFiche.hdebut_reel = this.hdebut;
         this.selectedFiche.hfin_reel = this.hfin;
-        this.presenceService.save( this.selectedFiche ).subscribe(( r: Response ) => { } );
+        this.presenceService.save(this.selectedFiche).subscribe((r: Response) => { });
         // Change the "state" for our animation trigger.
         this.orientation = "next";
         this.changeDetectorRef.detectChanges();
         // Find the currently selected index.
-        var index = this.fiches.indexOf( this.selectedFiche );
-        if ( index == -1 ) index = 0;
+        let index = this.fiches.indexOf(this.selectedFiche);
+        if (index == -1) index = 0;
         this.fiches[index] = this.selectedFiche;
         // Move the rendered element to the next index - this will cause the current item
         // to enter the ( "next" => "void" ) transition and this new item to enter the 
@@ -282,21 +282,21 @@ export class SaisieFichesComponent implements OnInit {
             ? this.fiches[index + 1]
             : this.fiches[0];
         this.enseignant = { nom_enseignant: "" };
-        if ( this.selectedFiche.enseignant )
+        if (this.selectedFiche.enseignant)
             this.enseignant.nom_enseignant = this.selectedFiche.enseignant;
         else this.enseignant.nom_enseignant = "";
         this.setHeuresReelles();
     }
 
-    onHeureDebutChange( time ) {
-        if ( time != "" ) {
+    onHeureDebutChange(time) {
+        if (time != "") {
             this.selectedFiche.hdebut_reel = time;
             this.hdebut = time;
         }
     }
 
-    onHeureFinChange( time ) {
-        if ( time != "" ) {
+    onHeureFinChange(time) {
+        if (time != "") {
             this.selectedFiche.hfin_reel = time;
             this.hfin = time;
         }
@@ -318,7 +318,7 @@ export class SaisieFichesComponent implements OnInit {
     }
 
     onSubmit() {
-        if ( !this.lotInvalid ) this.confirmLot();
+        if (!this.lotInvalid) this.confirmLot();
     }
     // I cycle to the previous fiche in the collection.
     public showPrevFiche(): void {
@@ -326,7 +326,7 @@ export class SaisieFichesComponent implements OnInit {
         this.orientation = "prev";
         this.changeDetectorRef.detectChanges();
         // Find the currently selected index.
-        var index = this.fiches.indexOf( this.selectedFiche );
+        const index = this.fiches.indexOf(this.selectedFiche);
 
         // Move the rendered element to the previous index - this will cause the current 
         // item to enter the ( "prev" => "void" ) transition and this new item to enter
@@ -335,20 +335,20 @@ export class SaisieFichesComponent implements OnInit {
             ? this.fiches[index - 1]
             : this.fiches[this.fiches.length - 1];
         this.enseignant = { nom_enseignant: "" };
-        if ( this.selectedFiche.enseignant )
+        if (this.selectedFiche.enseignant)
             this.enseignant.nom_enseignant = this.selectedFiche.enseignant;
         else this.enseignant.nom_enseignant = "";
         this.setHeuresReelles();
     }
-    getMonday( timestamp ) {
-        return moment.unix( timestamp ).isoWeekday( 1 ).format( "DD/MM/YYYY" );
+    getMonday(timestamp) {
+        return moment.unix(timestamp).isoWeekday(1).format("DD/MM/YYYY");
     }
 
-    getSunday( timestamp ) {
-        return moment.unix( timestamp ).isoWeekday( 7 ).format( "DD/MM/YYYY" );
+    getSunday(timestamp) {
+        return moment.unix(timestamp).isoWeekday(7).format("DD/MM/YYYY");
     }
-    EnterForm( event ) {
-        if ( event.keyCode == 13 ) {
+    EnterForm(event) {
+        if (event.keyCode === 13) {
             this.showNextFiche();
         }
     }
