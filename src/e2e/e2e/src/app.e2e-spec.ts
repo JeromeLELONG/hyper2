@@ -25,104 +25,6 @@ describe('hyper App ', function () {
   });
 
 
-  it('should download an excel file and check the content', async () => {
-
-    var EC = protractor.ExpectedConditions;
-    await browser.wait(EC.visibilityOf(element(by.id('loginbtn'))));
-    var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
-    userNameField.sendKeys('lelongj');
-    userPassField.sendKeys('motdepasse');
-    expect(userNameField.getAttribute('value')).toEqual('lelongj');
-    expect(userPassField.getAttribute('value')).toEqual('motdepasse');
-    await userLoginBtn.click();
-    await browser.waitForAngular();
-    expect(await browser.driver.getCurrentUrl()).toMatch('/app');
-    await browser.wait(EC.visibilityOf(element(by.id('exportLink'))));
-    await browser.wait(EC.elementToBeClickable(element(by.id('exportLink'))));
-    await browser.executeScript("arguments[0].click();", element(by.id('exportLink')));
-    await browser.wait(EC.presenceOf(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'))));
-    var exportCsvButton = await browser.driver.findElement(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'));
-    await exportCsvButton.click();
-    var cookies = await browser.manage().getCookies();
-    var context = await browserName();
-    var zipFile = await request.post('http://localhost/api/presence/extraire-excel').type('form')
-      .set('Cookie', 'PHPSESSID=' + cookies[0].value)
-      .field('datedebut', '01/09/2008')
-      .field('datefin', '31/08/2009').parse(binaryParser).buffer()
-    fs.writeFileSync('/var/www/html/applications/hyper/data/export_' + context + '.zip', zipFile.body, 'binary');
-    var data = await unzipper.Open.file('/var/www/html/applications/hyper/data/export_' + context + '.zip');
-    await fs.createReadStream('/var/www/html/applications/hyper/data/export_' + context + '.zip')
-      .pipe(unzipper.Extract({ path: '/var/www/html/applications/hyper/data/' })).promise();
-    var excelFile = await readXlsxFile('/var/www/html/applications/hyper/data/' + data.files[0].path);
-    expect(excelFile[10][7]).toEqual('Amphi Z');
-    expect(excelFile[50][4]).toEqual('02/10/2008');
-    expect(excelFile[14][7]).toEqual('9.B0.15');
-
-  });
-
-
-  it('should generate a graphic with room usage numbers', async () => {
-    var userNameField = await browser.driver.findElement(by.id('username'));
-    var userPassField = await browser.driver.findElement(by.id('password'));
-    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
-    userNameField.sendKeys('lelongj');
-    userPassField.sendKeys('motdepasse');
-    expect(userNameField.getAttribute('value')).toEqual('lelongj');
-    expect(userPassField.getAttribute('value')).toEqual('motdepasse');
-    await userLoginBtn.click();
-    await browser.waitForAngular();
-    var EC = protractor.ExpectedConditions;
-    await browser.wait(EC.visibilityOf(element(by.id('graphicLink'))));
-    await browser.wait(EC.elementToBeClickable(element(by.id('graphicLink'))));
-    await browser.executeScript("arguments[0].click();", element(by.id('graphicLink')));
-    expect(await browser.driver.getCurrentUrl()).toMatch('/app/viewgraphics');
-    var dateDebut = by.xpath('//*[@id="dateDebut"]/span/input');
-    await browser.wait(EC.visibilityOf(element(dateDebut)));
-    await browser.wait(EC.presenceOf(element(by.css('p-calendar[ng-reflect-disabled="false"][id="dateDebut"]'))));
-    await browser.driver.findElement(dateDebut).clear();
-    await browser.executeScript('arguments[0].value = "";', element(dateDebut).getWebElement());
-    await browser.driver.findElement(dateDebut).sendKeys('11/04/2018');
-    await browser.wait(EC.textToBePresentInElement(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div[1]/div/div[2]')), 'avril 2018'));
-    await browser.driver.findElement(dateDebut).click();
-    var dateDebutSelect = by.xpath('//*[@id="dateDebut"]/span/div/table/tbody/tr[3]/td[3]/a');
-    await browser.wait(EC.visibilityOf(element(dateDebutSelect)));
-    await element(dateDebutSelect).click();
-    var dateFin = by.xpath('//*[@id="dateFin"]/span/input');
-    await browser.wait(EC.visibilityOf(element(dateFin)));
-    await browser.wait(EC.presenceOf(element(by.css('p-calendar[ng-reflect-disabled="false"][id="dateFin"]'))));
-    await browser.driver.findElement(dateFin).clear();
-    await browser.executeScript('arguments[0].value = "";', element(dateFin).getWebElement());
-    await browser.driver.findElement(dateFin).sendKeys('05/06/2018');
-    await browser.wait(EC.textToBePresentInElement(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div[3]/div/div[2]')), 'juin 2018'));
-    await browser.driver.findElement(dateFin).click();
-    var dateFinSelect = by.xpath('//*[@id="dateFin"]/span/div/table/tbody/tr[2]/td[2]/a');
-    await browser.wait(EC.visibilityOf(element(dateFinSelect)));
-    await element(dateFinSelect).click();
-    await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
-    //await element(by.xpath('//*[@id="selectSalles"]/div')).click(); // //*[@id="selectSalles"]/div/div[3]/span
-    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div'))));
-    await element(by.xpath('//*[@id="selectSalles"]/div')).click();
-    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[1]/div'))));
-    await element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[1]/div')).click();
-    await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
-    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[4]/div'))));
-    await element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[4]/div')).click();
-    await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
-    var chart = by.xpath('//*[@id="graphicSalles"]');
-    await browser.sleep(1000);
-    await browser.wait(EC.presenceOf(element(chart)));
-    var values = await element(chart).all(by.css('g[ng-reflect-series="[object Object]"][ngx-charts-series-vertical]'));
-    var emptyValuesFirefox = await element(chart).all(by.css('g[ngx-charts-bar][ng-reflect-y="281"]'));
-    var emptyValuesChrome = await element(chart).all(by.css('g[ngx-charts-bar][ng-reflect-y="283"]'));
-    //expect(await values[13].getAttribute('innerHTML')).toContain('path class="bar" stroke="none"');
-    if (!emptyValuesFirefox.length)
-      expect(emptyValuesChrome.length).toEqual(31);
-    else
-      expect(emptyValuesFirefox.length).toEqual(31);
-
-  });
 
 
   it('should display welcoming message', async () => {
@@ -287,5 +189,103 @@ describe('hyper App ', function () {
   });
 
 
+  it('should download an excel file and check the content', async () => {
+
+    var EC = protractor.ExpectedConditions;
+    await browser.wait(EC.visibilityOf(element(by.id('loginbtn'))));
+    var userNameField = await browser.driver.findElement(by.id('username'));
+    var userPassField = await browser.driver.findElement(by.id('password'));
+    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    userNameField.sendKeys('lelongj');
+    userPassField.sendKeys('motdepasse');
+    expect(userNameField.getAttribute('value')).toEqual('lelongj');
+    expect(userPassField.getAttribute('value')).toEqual('motdepasse');
+    await userLoginBtn.click();
+    await browser.waitForAngular();
+    expect(await browser.driver.getCurrentUrl()).toMatch('/app');
+    await browser.wait(EC.visibilityOf(element(by.id('exportLink'))));
+    await browser.wait(EC.elementToBeClickable(element(by.id('exportLink'))));
+    await browser.executeScript("arguments[0].click();", element(by.id('exportLink')));
+    await browser.wait(EC.presenceOf(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'))));
+    var exportCsvButton = await browser.driver.findElement(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div/div/div[3]/div[2]/button'));
+    await exportCsvButton.click();
+    var cookies = await browser.manage().getCookies();
+    var context = await browserName();
+    var zipFile = await request.post('http://localhost/api/presence/extraire-excel').type('form')
+      .set('Cookie', 'PHPSESSID=' + cookies[0].value)
+      .field('datedebut', '01/09/2008')
+      .field('datefin', '31/08/2009').parse(binaryParser).buffer()
+    fs.writeFileSync('/var/www/html/applications/hyper/data/export_' + context + '.zip', zipFile.body, 'binary');
+    var data = await unzipper.Open.file('/var/www/html/applications/hyper/data/export_' + context + '.zip');
+    await fs.createReadStream('/var/www/html/applications/hyper/data/export_' + context + '.zip')
+      .pipe(unzipper.Extract({ path: '/var/www/html/applications/hyper/data/' })).promise();
+    var excelFile = await readXlsxFile('/var/www/html/applications/hyper/data/' + data.files[0].path);
+    expect(excelFile[10][7]).toEqual('Amphi Z');
+    expect(excelFile[50][4]).toEqual('02/10/2008');
+    expect(excelFile[14][7]).toEqual('9.B0.15');
+
+  });
+
+
+  it('should generate a graphic with room usage numbers', async () => {
+    var userNameField = await browser.driver.findElement(by.id('username'));
+    var userPassField = await browser.driver.findElement(by.id('password'));
+    var userLoginBtn = await browser.driver.findElement(by.id('loginbtn'));
+    userNameField.sendKeys('lelongj');
+    userPassField.sendKeys('motdepasse');
+    expect(userNameField.getAttribute('value')).toEqual('lelongj');
+    expect(userPassField.getAttribute('value')).toEqual('motdepasse');
+    await userLoginBtn.click();
+    await browser.waitForAngular();
+    var EC = protractor.ExpectedConditions;
+    await browser.wait(EC.visibilityOf(element(by.id('graphicLink'))));
+    await browser.wait(EC.elementToBeClickable(element(by.id('graphicLink'))));
+    await browser.executeScript("arguments[0].click();", element(by.id('graphicLink')));
+    expect(await browser.driver.getCurrentUrl()).toMatch('/app/viewgraphics');
+    var dateDebut = by.xpath('//*[@id="dateDebut"]/span/input');
+    await browser.wait(EC.visibilityOf(element(dateDebut)));
+    await browser.wait(EC.presenceOf(element(by.css('p-calendar[ng-reflect-disabled="false"][id="dateDebut"]'))));
+    await browser.driver.findElement(dateDebut).clear();
+    await browser.executeScript('arguments[0].value = "";', element(dateDebut).getWebElement());
+    await browser.driver.findElement(dateDebut).sendKeys('11/04/2018');
+    await browser.wait(EC.textToBePresentInElement(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div[1]/div/div[2]')), 'avril 2018'));
+    await browser.driver.findElement(dateDebut).click();
+    var dateDebutSelect = by.xpath('//*[@id="dateDebut"]/span/div/table/tbody/tr[3]/td[3]/a');
+    await browser.wait(EC.visibilityOf(element(dateDebutSelect)));
+    await element(dateDebutSelect).click();
+    var dateFin = by.xpath('//*[@id="dateFin"]/span/input');
+    await browser.wait(EC.visibilityOf(element(dateFin)));
+    await browser.wait(EC.presenceOf(element(by.css('p-calendar[ng-reflect-disabled="false"][id="dateFin"]'))));
+    await browser.driver.findElement(dateFin).clear();
+    await browser.executeScript('arguments[0].value = "";', element(dateFin).getWebElement());
+    await browser.driver.findElement(dateFin).sendKeys('05/06/2018');
+    await browser.wait(EC.textToBePresentInElement(element(by.xpath('/html/body/app-root/div/div/ng-component/div/div/div/div[2]/div[3]/div/div[2]')), 'juin 2018'));
+    await browser.driver.findElement(dateFin).click();
+    var dateFinSelect = by.xpath('//*[@id="dateFin"]/span/div/table/tbody/tr[2]/td[2]/a');
+    await browser.wait(EC.visibilityOf(element(dateFinSelect)));
+    await element(dateFinSelect).click();
+    await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
+    //await element(by.xpath('//*[@id="selectSalles"]/div')).click(); // //*[@id="selectSalles"]/div/div[3]/span
+    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div'))));
+    await element(by.xpath('//*[@id="selectSalles"]/div')).click();
+    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[1]/div'))));
+    await element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[1]/div')).click();
+    await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
+    await browser.wait(EC.elementToBeClickable(element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[4]/div'))));
+    await element(by.xpath('//*[@id="selectSalles"]/div/div[4]/div[2]/ul/li[4]/div')).click();
+    await browser.wait(EC.presenceOf(element(by.css('p-multiselect[ng-reflect-disabled="false"][id="selectSalles"]'))));
+    var chart = by.xpath('//*[@id="graphicSalles"]');
+    await browser.sleep(1000);
+    await browser.wait(EC.presenceOf(element(chart)));
+    var values = await element(chart).all(by.css('g[ng-reflect-series="[object Object]"][ngx-charts-series-vertical]'));
+    var emptyValuesFirefox = await element(chart).all(by.css('g[ngx-charts-bar][ng-reflect-y="281"]'));
+    var emptyValuesChrome = await element(chart).all(by.css('g[ngx-charts-bar][ng-reflect-y="283"]'));
+    //expect(await values[13].getAttribute('innerHTML')).toContain('path class="bar" stroke="none"');
+    if (!emptyValuesFirefox.length)
+      expect(emptyValuesChrome.length).toEqual(31);
+    else
+      expect(emptyValuesFirefox.length).toEqual(31);
+
+  });
 
 });
