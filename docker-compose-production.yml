@@ -23,8 +23,8 @@ mysql:
     volumes:
         - dbdata:/var/lib/mysql
         - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-        - 3306:3306
+    #ports:
+    #    - 3306:3306
 ldap:
     container_name: ldap_hyper
     build: ./ldap
