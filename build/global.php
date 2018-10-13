@@ -15,11 +15,11 @@ return [
 	'db' => [
 		//'driver'         => 'Pdo',
 		'driver' => 'pdo',
-		'username' => 'userPresence',
-		'password' => 'kLW6j+X',
+		'username' => 'root',
+		'password' => 'root',
 		'database' => 'presence',
-		'host'     => 'minosdev.cnam.fr',
-		'dsn'            => 'mysql:dbname=presence;host=minosdev.cnam.fr',
+		'host'     => 'mysql',
+		'dsn'            => 'mysql:dbname=presence;host=mysql',
 		'driver_options' => [
 				PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
 				PDO::MYSQL_ATTR_LOCAL_INFILE => TRUE
@@ -41,13 +41,15 @@ return [
 		],
 		'logPath' => '/tmp/log_access_hyper.txt',
 		'ldap' => array(
-			'server' => array(
-					'host' => 'ldap.cnam.fr',
-					'port' => '389',
-					'accountDomainName' => 'cnam.fr',
-					'accountDomainNameShort' => 'cnam',
-					'baseDn' => "ou=people,o=personnel,dc=cnam,dc=fr",
-					'bindRequiresDn' => true
-			),
-	),
+				'server' => array(
+						'host' => 'ldap',
+						'port' => '389',
+						'accountDomainName' => 'cnam.fr',
+						'accountDomainNameShort' => 'cnam',
+						'baseDn' => "dc=cnam,dc=fr",
+						'bindRequiresDn' => true,
+						'username' => 'cn=admin,dc=cnam,dc=fr',
+                        'password' => 'admin',
+				),
+		),
 ];

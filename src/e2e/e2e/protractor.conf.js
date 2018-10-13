@@ -58,8 +58,8 @@ exports.config = {
                     "browser.download.folderList": 2,
                     "browser.download.useDownloadDir": true,
                     "browser.download.manager.showWhenStarting": false,
-                    "browser.download.dir": "/tmp/",
-                    "browser.helperApps.neverAsk.saveToDisk": "application/zip"
+                    "browser.download.dir": "/var/www/html/applications/hyper/data/",
+                    "browser.helperApps.neverAsk.saveToDisk": "application/zip, application/pdf"
                 }
             ),
             {
@@ -82,8 +82,8 @@ exports.config = {
 
         ]);
     },
-
-    directConnect: false,
+    maxSessions: 1,
+    directConnect: true,
     //baseUrl: 'http://localhost:4200/',
     baseUrl: 'http://localhost/',
     framework: 'jasmine',

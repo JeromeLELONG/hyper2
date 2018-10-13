@@ -14,6 +14,8 @@ RUN apt-get install -y libfreetype6-dev
 RUN apt-get install -y libjpeg62-turbo-dev
 RUN apt-get install -y libmcrypt-dev
 RUN apt-get install -y libpng-dev
+RUN apt-get install -y firefox-esr
+RUN apt-get install -y chromium
 RUN docker-php-ext-install -j$(nproc) iconv mcrypt
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd
@@ -29,6 +31,16 @@ RUN a2ensite default-ssl
 RUN a2enmod rewrite proxy proxy_http proxy_wstunnel proxy_html substitute filter
 RUN chown -R www-data:www-data /var/www
 RUN apt-get -y install curl build-essential wget gnupg
+RUN mkdir -p /usr/share/man/man1
+RUN apt-get install -y openjdk-8-jre-headless
+RUN apt-get install -y unzip
+RUN apt-get -y install curl build-essential wget gnupg
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+WORKDIR /var/www/html/applications/hyper/angular/
+RUN npm cache clean -f
+RUN npm install -g protractor
+WORKDIR /usr/src
 COPY src/vendor /var/www/html/applications/hyper/vendor
 COPY src/composer.json /var/www/html/applications/hyper/composer.json
 COPY src/config /var/www/html/applications/hyper/config
@@ -39,4 +51,5 @@ COPY src/angular/src/css /var/www/html/applications/hyper/public/css
 COPY src/angular/src/js /var/www/html/applications/hyper/public/js
 COPY src/angular/src/fonts /var/www/html/applications/hyper/public/fonts
 COPY build/global.php /var/www/html/applications/hyper/config/autoload/global.php
-COPY build/development.local.php /var/www/html/applications/hyper/config/autoload/development.local.php
+RUN chmod 777 /var/www/html/applications/hyper/data
+#COPY build/development.local.php /var/www/html/applications/hyper/config/autoload/development.local.php

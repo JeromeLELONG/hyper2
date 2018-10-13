@@ -1,7 +1,8 @@
 apache:
     #image: php:apache
-    container_name: hyper_prod
-    build: ./
+    image: hyper:latest
+    container_name: hyper
+    #build: ./
     links:
     - mysql
     - ldap
@@ -10,6 +11,8 @@ apache:
     - "80:80"
     - "443:443"
     privileged: true
+    volumes:
+    - "./src/e2e/:/usr/src"
 mysql:
     #image: mysql:latest
     build: ./mysql
