@@ -93,10 +93,11 @@ class PresenceController extends AbstractActionController {
 		}td, th {border-left:solid black 0px;border-top:solid black 0.4px;}th {background-color: blue;}td:first-child, th:first-child {
      	border-left: none;}';
 		$html = '';
-		if ($_SERVER['APPLICATION_ENV'] == 'development' || $_SERVER['APPLICATION_ENV'] == 'integration')
-			$application_path = '/var/www/html/applications/hyper/';
-		else
-			$application_path = '/var/www/html/applications/hyper2/';
+		//if ($_SERVER['APPLICATION_ENV'] == 'development' || $_SERVER['APPLICATION_ENV'] == 'integration')
+		//	$application_path = '/var/www/html/applications/hyper/';
+		//else
+		//	$application_path = '/var/www/html/applications/hyper2/';
+		$application_path = = __DIR__.'/../../../../';
 		$html .= '<table  style="' . $styleRoundCorners . '">
     		<tr><td width="740" style="border: 0.3px solid black;">' . '<table  align="center">
     				<tr>
