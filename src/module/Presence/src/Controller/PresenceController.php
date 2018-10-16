@@ -97,7 +97,7 @@ class PresenceController extends AbstractActionController {
 		//	$application_path = '/var/www/html/applications/hyper/';
 		//else
 		//	$application_path = '/var/www/html/applications/hyper2/';
-		$application_path = = __DIR__.'/../../../../';
+		$application_path = __DIR__.'/../../../../';
 		$html .= '<table  style="' . $styleRoundCorners . '">
     		<tr><td width="740" style="border: 0.3px solid black;">' . '<table  align="center">
     				<tr>
