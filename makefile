@@ -10,16 +10,19 @@ stop: ## Start the client and server in docker for local development
 	docker-compose down
 
 install-php: 
-	docker-compose run --rm --no-deps apache  bash -ci 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/var/www/html/applications/hyper --filename=composer.phar'
-	docker-compose run --rm --no-deps apache  bash -ci 'cd /var/www/html/applications/hyper && php /var/www/html/applications/hyper/composer.phar install --no-interaction'
+	#docker-compose -f docker-compose-test.yml run --rm --no-deps apache_install  bash -ci 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/var/www/html/applications/hyper --filename=composer.phar'
+	#docker-compose -f docker-compose-test.yml run --rm --no-deps apache_install  bash -ci 'apt-get -yq update && apt-get install -y git && cd /var/www/html/applications/hyper && php /var/www/html/applications/hyper/composer.phar install --ignore-platform-reqs --no-interaction'
+	docker run -t -i --volume ${PWD}/src/:/var/www/html/applications/hyper  php:7.0-apache bash -ci 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/var/www/html/applications/hyper --filename=composer.phar && apt-get -yq update && apt-get install -y git && cd /var/www/html/applications/hyper && php /var/www/html/applications/hyper/composer.phar install --ignore-platform-reqs --no-interaction'
 
 install-node:
-	docker-compose run --rm --no-deps node bash -ci 'npm cache clean -f && npm install --force'
+	docker run -t -i --volume ${PWD}/src/angular:/usr/src  node bash -ci 'cd /usr/src && npm cache clean -f && npm install --force'
+	#docker-compose -f docker-compose-test.yml run --rm --no-deps node_install bash -ci 'npm cache clean -f && npm install --force'
 
 install-protractor:
 	#docker-compose up --build --no-deps -d apache
 	#docker-compose run apache bash -ci 'cd /usr/src/ && npm cache clean -f && npm install --force'
-	docker-compose run --rm --no-deps node bash -ci 'cd /usr/e2e/ && npm cache clean -f && npm install --force'
+	#docker-compose -f docker-compose-test.yml run --rm --no-deps node_install bash -ci 'cd /usr/e2e/ && npm cache clean -f && npm install --force'
+	docker run -t -i --volume ${PWD}/src/e2e:/usr/e2e  node bash -ci 'cd /usr/e2e/ && npm cache clean -f && npm install --force'
 	#docker-compose down
 
 install: install-php install-node install-protractor
